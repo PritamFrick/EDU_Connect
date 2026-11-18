@@ -30,7 +30,9 @@ const STORAGE_KEYS = {
    2. Real University Students Seed Dataset
    ========================================================================== */
 
-const INITIAL_STUDENTS = [
+// Seed datasets are declared with `let` so the MySQL-first boot sequence can
+// replace them with live database content when the PHP API is reachable.
+let INITIAL_STUDENTS = [
   {
     id: 'std_01',
     studentId: '243011912',
@@ -230,7 +232,7 @@ const INITIAL_STUDENTS = [
    3. Faculty & Administrative Personnel
    ========================================================================== */
 
-const FACULTY_ADMIN = {
+let FACULTY_ADMIN = {
   id: 'admin_01',
   studentId: 'FACULTY-CSE-242',
   name: 'Saraf Anika (Asst. Professor & Faculty Admin)',
@@ -244,7 +246,7 @@ const FACULTY_ADMIN = {
   connectedStudents: []
 };
 
-const CLUB_REPRESENTATIVES = [
+let CLUB_REPRESENTATIVES = [
   {
     id: 'club_rep_01',
     studentId: '243007712',
@@ -265,7 +267,7 @@ const CLUB_REPRESENTATIVES = [
    4. East Delta University Registered Clubs Dataset
    ========================================================================== */
 
-const INITIAL_CLUBS = [
+let INITIAL_CLUBS = [
   {
     id: 'club_01',
     name: 'EDU Computer Club',
@@ -415,7 +417,7 @@ const INITIAL_CLUBS = [
    5. Campus Events & Workshops Dataset
    ========================================================================== */
 
-const INITIAL_EVENTS = [
+let INITIAL_EVENTS = [
   {
     id: 'evt_01',
     title: 'CSE 242 Web Development Final Defense & Project Showcase',
@@ -502,7 +504,7 @@ const INITIAL_EVENTS = [
    6. Campus Feed Posts Dataset
    ========================================================================== */
 
-const INITIAL_POSTS = [
+let INITIAL_POSTS = [
   {
     id: 'post_01',
     authorType: 'club',
@@ -584,7 +586,7 @@ const INITIAL_POSTS = [
    7. Notifications Dataset
    ========================================================================== */
 
-const INITIAL_NOTIFICATIONS = [
+let INITIAL_NOTIFICATIONS = [
   {
     id: 'notif_01',
     type: 'event',
@@ -627,7 +629,7 @@ const INITIAL_NOTIFICATIONS = [
    8. Academic Verifications & Moderation Reports
    ========================================================================== */
 
-const INITIAL_VERIFICATIONS = [
+let INITIAL_VERIFICATIONS = [
   {
     id: 'verif_01',
     type: 'student',
@@ -663,7 +665,7 @@ const INITIAL_VERIFICATIONS = [
   }
 ];
 
-const INITIAL_REPORTS = [
+let INITIAL_REPORTS = [
   {
     id: 'rep_01',
     type: 'post',
@@ -720,7 +722,41 @@ function setStorage(key, value) {
   }
 }
 
-const DATA_SCHEMA_VERSION = '2026_FALL_CSE242_REAL_V2';
+let DATA_SCHEMA_VERSION = '2026_FALL_CSE242_REAL_V2';
+
+/**
+ * Replaces the bundled seed datasets with the live MySQL payload returned by
+ * api/data.php. Post like-state is resolved against the active session user
+ * so the feed renders the correct liked indicators from the database.
+ *
+ * @param {Object} remote - Payload of GET api/data.php.
+ */
+function applyRemoteDataset(remote) {
+  const session = getStorage(STORAGE_KEYS.CURRENT_USER, null);
+
+  INITIAL_STUDENTS = remote.students || INITIAL_STUDENTS;
+  INITIAL_CLUBS = remote.clubs || INITIAL_CLUBS;
+  INITIAL_EVENTS = remote.events || INITIAL_EVENTS;
+  INITIAL_NOTIFICATIONS = remote.notifications || INITIAL_NOTIFICATIONS;
+  INITIAL_VERIFICATIONS = remote.verifications || INITIAL_VERIFICATIONS;
+  INITIAL_REPORTS = remote.reports || INITIAL_REPORTS;
+
+  INITIAL_POSTS = (remote.posts || INITIAL_POSTS).map(post => ({
+    ...post,
+    likedByCurrentUser: Boolean(session && (post.likedBy || []).includes(session.id))
+  }));
+
+  if (remote.admins && remote.admins.length > 0) {
+    FACULTY_ADMIN = remote.admins[0];
+  }
+  if (remote.clubReps && remote.clubReps.length > 0) {
+    CLUB_REPRESENTATIVES = remote.clubReps;
+  }
+
+  // Distinct cache version so a successful DB sync always refreshes LocalStorage
+  DATA_SCHEMA_VERSION = '2026_FALL_CSE242_MYSQL_LIVE';
+  window.EDU_DB_CONNECTED = true;
+}
 
 /**
  * Bootstraps the application's LocalStorage state with initial university records
@@ -750,8 +786,30 @@ function initializeSeedData() {
   }
 }
 
-// Automatically bootstrap seed data upon script execution
-initializeSeedData();
+/* ==========================================================================
+   MySQL-First Boot Sequence
+   ==========================================================================
+   api.js is loaded before data.js on every page. When the PHP API is reachable
+   (XAMPP serving the project with MySQL running), the database becomes the
+   source of truth: seed datasets are replaced with live DB content before the
+   LocalStorage cache is refreshed, so every page renders MySQL-backed data.
+   When the API is unreachable (static hosting / file:// preview), the bundled
+   seed datasets below are used exactly as before. */
+
+(function bootFromDatabase() {
+  const sessionUserId = (getStorage(STORAGE_KEYS.CURRENT_USER, null) || {}).id;
+  const remote = window.EDUApi ? EDUApi.getSync(`data.php${sessionUserId ? `?user=${encodeURIComponent(sessionUserId)}` : ''}`) : null;
+
+  if (remote) {
+    applyRemoteDataset(remote);
+    console.info('[EDUConnect] Connected to MySQL via PHP API - database is the live data source.');
+  } else {
+    window.EDU_DB_CONNECTED = false;
+    console.info('[EDUConnect] PHP API unreachable - using bundled LocalStorage seed data.');
+  }
+
+  initializeSeedData();
+})();
 const initializeDemoData = initializeSeedData;
 
 /* ==========================================================================

@@ -234,6 +234,15 @@ function toggleStudentConnection(targetStudentId) {
   // Persist current user state
   setStorage(STORAGE_KEYS.CURRENT_USER, currentUser);
 
+  // Write-through: sync the connection state with MySQL
+  if (window.EDUApi) {
+    EDUApi.action('connection_toggle', {
+      userId: currentUser.id,
+      targetId: targetStudentId,
+      connected: connected.includes(targetStudentId)
+    });
+  }
+
   // Synchronize master students dataset
   const students = getStorage(STORAGE_KEYS.STUDENTS, INITIAL_STUDENTS);
   const userIdx = students.findIndex(s => s.id === currentUser.id);
@@ -447,6 +456,20 @@ function setupEditProfileForm(student) {
     if (idx !== -1) {
       students[idx] = student;
       setStorage(STORAGE_KEYS.STUDENTS, students);
+    }
+
+    // Write-through: persist the edited profile to MySQL
+    if (window.EDUApi) {
+      EDUApi.action('profile_update', {
+        userId: student.id,
+        name: student.name,
+        department: student.department,
+        semester: student.semester,
+        bio: student.bio,
+        avatar: student.avatar,
+        skills: student.skills,
+        interests: student.interests
+      });
     }
 
     // If current logged-in user edited their own profile, sync session

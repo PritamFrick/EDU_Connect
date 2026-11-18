@@ -52,10 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
    ========================================================================== */
 
 /**
- * Validates login form inputs, authenticates against registered university accounts,
+ * Validates login form inputs, authenticates against the MySQL-backed PHP API
+ * (falling back to LocalStorage accounts when the API is unreachable),
  * verifies passwords, and redirects to the target portal or redirect parameter.
  */
-function handleLoginSubmit() {
+async function handleLoginSubmit() {
   const emailInput = document.getElementById('login-email');
   const passwordInput = document.getElementById('login-password');
   const roleSelect = document.getElementById('login-role');
@@ -80,6 +81,24 @@ function handleLoginSubmit() {
   }
 
   let authenticatedUser = null;
+
+  // 3. Primary path: authenticate against the MySQL users table via the PHP API
+  if (window.EDUApi) {
+    const result = await EDUApi.request('auth.php', { action: 'login', email: email, password: password });
+
+    if (result && result.ok && result.user) {
+      authenticatedUser = result.user;
+      completeLogin(authenticatedUser);
+      return;
+    }
+
+    if (result && result.ok === false && result.status !== 503) {
+      // The API responded authoritatively (invalid credentials etc.)
+      showAlert(alertBox, 'Incorrect email or password. Please verify your university credentials.', 'danger');
+      return;
+    }
+    // result === null: API unreachable -> continue with LocalStorage fallback below
+  }
 
   // Case 1: Faculty / Administrator Authentication
   const adminEmails = ['saraf.anika@faculty.edu', 'admin@edu.ac.bd', 'admin.connect@edu.ac.bd'];
@@ -149,11 +168,21 @@ function handleLoginSubmit() {
     }
   }
 
-  // 3. Save session
+  // 3. Save session and route
+  completeLogin(authenticatedUser);
+}
+
+/**
+ * Persists the authenticated session, displays the welcome toast and routes
+ * the user to their portal (admin dashboard, redirect target or main dashboard).
+ *
+ * @param {Object} authenticatedUser - Mapped user object stored in the session.
+ */
+function completeLogin(authenticatedUser) {
   setStorage(STORAGE_KEYS.CURRENT_USER, authenticatedUser);
   showToast(`Welcome back, ${escapeHtml(authenticatedUser.name)}!`, 'success');
 
-  // 4. Handle redirect target if redirected from a protected page
+  // Handle redirect target if redirected from a protected page
   const params = new URLSearchParams(window.location.search);
   const redirectTarget = params.get('redirect');
 
@@ -179,11 +208,11 @@ function handleLoginSubmit() {
 /**
  * Validates and processes a new student account registration submission:
  * - Checks password length and confirmation match.
- * - Prevents duplicate Student IDs or emails.
+ * - Persists the account to MySQL via the PHP API (LocalStorage fallback when offline).
  * - Enqueues a verification request in the Admin dashboard queue.
  * - Sets the new user as active session.
  */
-function handleStudentRegistration() {
+async function handleStudentRegistration() {
   const studentIdEl = document.getElementById('reg-student-id');
   const nameEl = document.getElementById('reg-name');
   const emailEl = document.getElementById('reg-email');
@@ -219,7 +248,34 @@ function handleStudentRegistration() {
     return;
   }
 
-  // 4. Duplicate identity check
+  // 4. Primary path: register the account in MySQL via the PHP API
+  if (window.EDUApi) {
+    const result = await EDUApi.request('auth.php', {
+      action: 'register_student',
+      studentId: studentId,
+      name: fullName,
+      email: email,
+      password: password,
+      department: department
+    });
+
+    if (result && result.ok && result.user) {
+      // Registration persisted in the database; establish the session
+      setStorage(STORAGE_KEYS.CURRENT_USER, result.user);
+      showToast('Registration successful! Profile submitted for admin verification.', 'success');
+      showRegistrationSuccess();
+      return;
+    }
+
+    if (result && result.ok === false && result.status !== 503) {
+      // The API rejected the registration authoritatively (duplicate id/email etc.)
+      showAlert(alertBox, result.error || 'Registration failed. Please review your details and try again.', 'danger');
+      return;
+    }
+    // result === null: API unreachable -> continue with LocalStorage fallback below
+  }
+
+  // 5. Duplicate identity check (LocalStorage fallback)
   const students = getStorage(STORAGE_KEYS.STUDENTS, INITIAL_STUDENTS);
   const isDuplicate = students.some(s => 
     s.email.toLowerCase() === email.toLowerCase() || s.studentId === studentId
@@ -230,7 +286,7 @@ function handleStudentRegistration() {
     return;
   }
 
-  // 5. Construct new student model
+  // 6. Construct new student model
   const newStudent = {
     id: 'std_' + Date.now(),
     studentId: studentId,
@@ -254,11 +310,11 @@ function handleStudentRegistration() {
     connectedStudents: []
   };
 
-  // 6. Save to Students collection
+  // 7. Save to Students collection
   students.push(newStudent);
   setStorage(STORAGE_KEYS.STUDENTS, students);
 
-  // 7. Enqueue verification request for the Admin Moderation Dashboard
+  // 8. Enqueue verification request for the Admin Moderation Dashboard
   const verifications = getStorage(STORAGE_KEYS.VERIFICATIONS, INITIAL_VERIFICATIONS);
   verifications.push({
     id: 'verif_' + Date.now(),
@@ -273,11 +329,19 @@ function handleStudentRegistration() {
   });
   setStorage(STORAGE_KEYS.VERIFICATIONS, verifications);
 
-  // 8. Establish active session
+  // 9. Establish active session
   setStorage(STORAGE_KEYS.CURRENT_USER, newStudent);
 
-  // 9. Display success feedback & route
+  // 10. Display success feedback & route
   showToast('Registration successful! Profile submitted for admin verification.', 'success');
+  showRegistrationSuccess();
+}
+
+/**
+ * Presents the registration success modal (or routes to the dashboard when
+ * the modal component is unavailable).
+ */
+function showRegistrationSuccess() {
   const successModal = document.getElementById('regSuccessModal');
   if (successModal && window.bootstrap) {
     const modal = new bootstrap.Modal(successModal);
@@ -293,7 +357,7 @@ function handleStudentRegistration() {
  * Validates and processes a new student club charter application,
  * submitting the proposal to the Student Affairs Council review queue.
  */
-function handleClubRegistration() {
+async function handleClubRegistration() {
   const clubNameEl = document.getElementById('club-name');
   const categoryEl = document.getElementById('club-category');
   const leadNameEl = document.getElementById('club-lead-name');
@@ -317,7 +381,32 @@ function handleClubRegistration() {
     return;
   }
 
-  // Enqueue new club charter verification in Admin dashboard
+  // Primary path: record the charter application in MySQL via the PHP API
+  if (window.EDUApi) {
+    const result = await EDUApi.request('auth.php', {
+      action: 'register_club_charter',
+      clubName: clubName,
+      category: category,
+      leadName: leadName,
+      leadEmail: leadEmail,
+      advisor: advisor,
+      description: description
+    });
+
+    if (result && result.ok) {
+      const safeClubName = escapeHtml(clubName);
+      showAlert(
+        alertBox,
+        `Success! Your club charter application for "${safeClubName}" has been submitted to the Student Affairs Council for verification.`,
+        'success'
+      );
+      showToast('Club application submitted for review!', 'success');
+      return;
+    }
+    // API unreachable -> fall through to LocalStorage persistence below
+  }
+
+  // Fallback: Enqueue new club charter verification in Admin dashboard
   const verifications = getStorage(STORAGE_KEYS.VERIFICATIONS, INITIAL_VERIFICATIONS);
   verifications.push({
     id: 'verif_' + Date.now(),

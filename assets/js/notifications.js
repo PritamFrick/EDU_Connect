@@ -123,6 +123,13 @@ function initNotificationsPage() {
       const notifs = getStorage(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS);
       notifs.forEach(n => { n.read = true; });
       setStorage(STORAGE_KEYS.NOTIFICATIONS, notifs);
+
+      // Write-through: mark all as read in MySQL
+      const sessionUser = getCurrentUser();
+      if (window.EDUApi && sessionUser) {
+        EDUApi.action('read_all', { userId: sessionUser.id });
+      }
+
       showToast('All notifications marked as read.', 'success');
       syncNavbarUI();
       renderList();
@@ -149,6 +156,12 @@ function markSingleNotifRead(notifId) {
   if (target) {
     target.read = true;
     setStorage(STORAGE_KEYS.NOTIFICATIONS, notifs);
+
+    // Write-through: mark the notification as read in MySQL
+    if (window.EDUApi) {
+      EDUApi.action('notification_read', { notificationId: notifId });
+    }
+
     syncNavbarUI();
     initNotificationsPage();
   }

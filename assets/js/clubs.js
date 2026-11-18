@@ -207,6 +207,15 @@ function toggleClubFollow(clubId) {
   setStorage(STORAGE_KEYS.CURRENT_USER, currentUser);
   setStorage(STORAGE_KEYS.CLUBS, clubs);
 
+  // Write-through: sync the follow state with MySQL
+  if (window.EDUApi) {
+    EDUApi.action('club_follow_toggle', {
+      clubId: clubId,
+      userId: currentUser.id,
+      following: following.includes(clubId)
+    });
+  }
+
   // Synchronize student directory records
   const students = getStorage(STORAGE_KEYS.STUDENTS, INITIAL_STUDENTS);
   const userIdx = students.findIndex(s => s.id === currentUser.id);

@@ -208,6 +208,8 @@ function toggleEventRegistration(eventId) {
     evt.seatsRegistered = Math.max(0, evt.seatsRegistered - 1);
     setStorage(STORAGE_KEYS.EVENTS, events);
     showToast(`Registration cancelled for "${evt.title}".`, 'info');
+    // Write-through: remove the registration row in MySQL
+    if (window.EDUApi) EDUApi.action('event_cancel', { eventId: eventId, userId: currentUser.id });
   } else {
     // Check capacity
     if (evt.seatsRegistered >= evt.seatsTotal) {
@@ -218,6 +220,8 @@ function toggleEventRegistration(eventId) {
     evt.seatsRegistered++;
     setStorage(STORAGE_KEYS.EVENTS, events);
     showToast(`Successfully registered for "${evt.title}"!`, 'success');
+    // Write-through: persist the registration row in MySQL
+    if (window.EDUApi) EDUApi.action('event_register', { eventId: eventId, userId: currentUser.id });
 
     // Create in-app notification
     const notifs = getStorage(STORAGE_KEYS.NOTIFICATIONS, []);

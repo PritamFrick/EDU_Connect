@@ -441,6 +441,15 @@ function toggleConnectionFromFeed(studentId) {
     showToast('Connection established successfully!', 'success');
   }
 
+  // Write-through: sync the connection state with MySQL
+  if (window.EDUApi) {
+    EDUApi.action('connection_toggle', {
+      userId: currentUser.id,
+      targetId: studentId,
+      connected: currentUser.connectedStudents.includes(studentId)
+    });
+  }
+
   // Update in user list
   const userIdx = students.findIndex(s => s.id === currentUser.id);
   if (userIdx > -1) {
@@ -565,6 +574,16 @@ function setupCreatePostModal() {
     posts.unshift(newPost);
     setStorage(STORAGE_KEYS.POSTS, posts);
 
+    // Write-through: persist the new post to MySQL
+    if (window.EDUApi && currentUser) {
+      EDUApi.action('post_create', {
+        authorId: currentUser.id,
+        title: title,
+        content: content,
+        image: image || null
+      });
+    }
+
     showToast('Post published to campus feed!', 'success');
 
     // Reset form and dismiss modal dialog
@@ -597,6 +616,16 @@ function togglePostLike(postId) {
   post.likesCount += post.likedByCurrentUser ? 1 : -1;
   setStorage(STORAGE_KEYS.POSTS, posts);
 
+  // Write-through: sync the like state with MySQL
+  const sessionUser = getCurrentUser();
+  if (window.EDUApi && sessionUser) {
+    EDUApi.action('post_like_toggle', {
+      postId: postId,
+      userId: sessionUser.id,
+      liked: post.likedByCurrentUser
+    });
+  }
+
   renderClubAnnouncementsFeed();
 }
 
@@ -613,6 +642,17 @@ function openCommentPrompt(postId) {
     if (post) {
       post.commentsCount = (post.commentsCount || 0) + 1;
       setStorage(STORAGE_KEYS.POSTS, posts);
+
+      // Write-through: persist the comment in MySQL
+      const sessionUser = getCurrentUser();
+      if (window.EDUApi && sessionUser) {
+        EDUApi.action('comment_add', {
+          postId: postId,
+          userId: sessionUser.id,
+          comment: comment.trim()
+        });
+      }
+
       showToast('Comment posted successfully!', 'success');
       renderClubAnnouncementsFeed();
     }

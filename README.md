@@ -31,7 +31,7 @@
    - Immediate route guards preventing unauthorized guest access to protected pages.
    - Zero mock/demo shortcuts; authentication strictly enforces registered university credentials.
 6. **Relational MySQL Database Architecture:**
-   - Fully normalized 3NF database schema (`schema.sql` and `DATABASE.md`) with 13 tables, foreign key constraints with cascade rules, performance indexes, and university seed data.
+   - Fully normalized 3NF database schema (`database/schema.sql` and `DATABASE.md`) with 14 tables, foreign key constraints with cascade rules, performance indexes, and university seed data.
 7. **Unified Brand Design System & Mobile Responsiveness:**
    - East Delta University brand palette (Crimson `#8B1E2D`, Navy `#1B365D`, Gold `#D4AF37`).
    - Standardized typography with Plus Jakarta Sans and DM Serif Display.
@@ -72,8 +72,13 @@ EDU_Connect/
 │       ├── notifications.js   # Notification feed, mark-as-read, filter tabs
 │       └── admin.js           # Admin metrics, verification queue, user management, moderation
 ├── database/
-│   └── schema.sql             # MySQL 8.0+ DDL schema with 13 tables & real seed records
-├── schema.sql                 # Root mirror of MySQL database schema
+│   ├── schema.sql             # MySQL 8.0+ DDL schema with 14 tables & real seed records
+│   └── README note:           # schema is the single source of truth (no root mirror)
+├── api/                       # PHP REST API bridging the frontend to MySQL
+│   ├── config.php             # PDO connection (XAMPP defaults) + shared helpers
+│   ├── data.php               # GET  full platform sync (all collections from MySQL)
+│   ├── auth.php               # POST login / student registration / club charter
+│   └── actions.php            # POST write-through mutations (likes, follows, admin decisions)
 ├── DATABASE.md                # Full database documentation, ER diagram, and setup instructions
 ├── index.html                 # Public landing page with features & club spotlight
 ├── login.html                 # Secure login page (real credentials only)
@@ -93,16 +98,31 @@ EDU_Connect/
 
 ## 4. Running the Platform Locally
 
-### Quick Run with Python HTTP Server:
+### Recommended Run with XAMPP (full MySQL integration):
+1. Install XAMPP and start **Apache** + **MySQL**.
+2. Copy this project folder into the XAMPP web root:
+   - Windows: `C:\xampp\htdocs\edu_connect`
+   - Linux: `/opt/lampp/htdocs/edu_connect`
+3. Import the database (phpMyAdmin → Import → `database/schema.sql`, or CLI):
+   ```bash
+   mysql -u root -p < database/schema.sql
+   ```
+4. Open `http://localhost/edu_connect/` — the site now reads and writes **live MySQL data**
+   through the PHP API in `api/`. Registrations, event sign-ups, likes, follows,
+   connections, notifications and admin verifications are all persisted in the database.
+
+### Fallback Run (static preview without PHP/MySQL):
 ```bash
 # From the project root:
 python3 -m http.server 8080
 ```
-Open `http://localhost:8080/index.html` in your browser.
+Open `http://localhost:8080/index.html` in your browser. When the PHP API is
+unreachable the platform automatically falls back to the bundled LocalStorage
+seed dataset, so every page still works.
 
 ### Database Setup (MySQL):
 ```bash
 # Import schema into MySQL:
-mysql -u root -p < schema.sql
+mysql -u root -p < database/schema.sql
 ```
-For detailed setup instructions via phpMyAdmin or MySQL Workbench, see [DATABASE.md](file:///home/adeel/Documents/projects/Inventra/personal/EDU_Connect/DATABASE.md).
+For detailed setup instructions via phpMyAdmin or MySQL Workbench, see [DATABASE.md](DATABASE.md).

@@ -262,9 +262,12 @@ Feed posts supporting the 2-section algorithmic recommendation system.
 | `admin_01` | **Faculty Admin** | Asst. Prof. Saraf Anika | `saraf.anika@faculty.edu` | `admin123` | `FACULTY-CSE-242` |
 | `std_01` | **Student Lead** | Raida Salsabil Sarwar | `raida.sarwar@student.edu` | `student123` | `243011912` |
 | `std_02` | **Student Lead** | Pritam Barua | `pritam.barua@student.edu` | `student123` | `243007712` |
-| `std_03` | **Student Lead** | Fardin Tajwar Chowdhury | `fardin.tajwar@student.edu` | `student123` | `243009912` |
+| `std_03` | **Student Lead** | Fardin Tajwar Chowdhury | `fardin.chowdhury@student.edu` | `student123` | `243009912` |
 | `std_04` | **Student Lead** | Md. Omar Mahabub | `omar.mahabub@student.edu` | `student123` | `243007512` |
-| `std_05` | **Student Lead** | Anika Thashen Autshe | `anika.thashen@student.edu` | `student123` | `243015112` |
+| `std_05` | **Student Lead** | Anika Thashen Autshe | `anika.autshe@student.edu` | `student123` | `243015112` |
+| `std_06` | **Student** | Tanvir Ahmed | `tanvir.ahmed@student.edu` | `student123` | `242003412` |
+| `std_07` | **Student** | Sadia Chowdhury | `sadia.chowdhury@student.edu` | `student123` | `241009112` |
+| `club_rep_01` | **Club Rep (EDURC)** | Pritam Barua (EDURC President) | `robotics.lead@student.edu` | `clubrep123` | `REP-243007712` |
 
 ---
 
@@ -274,17 +277,14 @@ Feed posts supporting the 2-section algorithmic recommendation system.
 ```bash
 # Connect to your MySQL server and execute schema.sql
 mysql -u root -p < database/schema.sql
-
-# Or directly from the project root:
-mysql -u root -p < schema.sql
 ```
 
 ### Method 2: Using phpMyAdmin (XAMPP / WAMP / LAMP)
 1. Open your web browser and navigate to `http://localhost/phpmyadmin`.
 2. Click on the **Import** tab in the top navigation bar.
-3. Click **Browse your computer...** and select `schema.sql` (located in the project root or `/database/schema.sql`).
+3. Click **Browse your computer...** and select `database/schema.sql`.
 4. Keep character set as `utf-8` and SQL format.
-5. Click **Import** at the bottom of the page. The database `edu_connect` and all 13 tables will be created and populated automatically.
+5. Click **Import** at the bottom of the page. The database `edu_connect` and all 14 tables will be created and populated automatically.
 
 ### Method 3: Using MySQL Workbench
 1. Launch **MySQL Workbench** and open your active Local Instance connection.

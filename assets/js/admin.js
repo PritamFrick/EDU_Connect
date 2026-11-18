@@ -153,6 +153,16 @@ function handleVerificationAction(verifId, newStatus) {
   item.status = newStatus;
   setStorage(STORAGE_KEYS.VERIFICATIONS, verifications);
 
+  // Write-through: apply the decision in MySQL (also flips the student's account status)
+  const adminUser = getCurrentUser();
+  if (window.EDUApi) {
+    EDUApi.action('verify_decision', {
+      verificationId: verifId,
+      decision: newStatus,
+      reviewerId: adminUser ? adminUser.id : null
+    });
+  }
+
   // If this was a student, update the student record in LocalStorage
   if (item.type === 'student') {
     const students = getStorage(STORAGE_KEYS.STUDENTS, INITIAL_STUDENTS);
@@ -233,6 +243,12 @@ function toggleStudentVerifiedState(studentId) {
 
   student.status = student.status === 'Verified' ? 'Pending Verification' : 'Verified';
   setStorage(STORAGE_KEYS.STUDENTS, students);
+
+  // Write-through: flip the account status in MySQL
+  if (window.EDUApi) {
+    EDUApi.action('student_status_toggle', { studentId: studentId });
+  }
+
   showToast(`Updated ${student.name}'s status to ${student.status}.`, 'info');
   initAdminDashboard();
 }
@@ -356,6 +372,11 @@ function resolveReportAction(reportId, actionTaken) {
 
   rep.status = 'Resolved';
   setStorage(STORAGE_KEYS.REPORTS, reports);
+
+  // Write-through: resolve the report in MySQL
+  if (window.EDUApi) {
+    EDUApi.action('report_resolve', { reportId: reportId });
+  }
 
   showToast(`Report on "${rep.targetTitle}" processed: ${actionTaken}`, 'success');
   initAdminDashboard();
