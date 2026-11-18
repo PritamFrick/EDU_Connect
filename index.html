@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduConnect – East Delta University</title>
+  <title>EDUConnect – East Delta University</title>
   <meta name="description" content="Clubs and events at East Delta University, all in one place. Connect. Discover. Belong.">
   
   <!-- Google Fonts -->
@@ -23,10 +23,12 @@
   <!-- Navigation Bar (Seamless Deep Maroon) -->
   <nav class="navbar navbar-expand-md home-navbar">
     <div class="container">
-      <a class="home-brand" href="index.html">EduConnect</a>
+      <a class="home-brand d-flex align-items-center gap-1" href="index.html">
+        EDU<span class="brand-gold">Connect</span>
+      </a>
 
-      <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHome" aria-label="Toggle navigation">
-        <i class="bi bi-list fs-2 text-white"></i>
+      <button class="navbar-toggler text-white border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHome" aria-controls="navbarHome" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-1 text-white"></i>
       </button>
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarHome">
@@ -41,25 +43,10 @@
             <a class="home-nav-link" href="dashboard.html">About</a>
           </li>
           <li class="nav-item">
-            <a class="home-nav-login" href="login.html">Login</a>
+            <a class="home-nav-login" href="login.html" id="home-nav-auth-link">Login</a>
           </li>
           
-          <!-- Discreet Demo Role Switcher for CSE 242 Evaluation -->
-          <li class="nav-item dropdown ms-md-2">
-            <button class="btn btn-sm text-white-50 border-0 bg-transparent dropdown-toggle small" type="button" data-bs-toggle="dropdown" title="Switch Demo Roles">
-              <i class="bi bi-person-gear"></i> Demo
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li><h6 class="dropdown-header">CSE 242 Demo Switcher</h6></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="student"><i class="bi bi-person text-primary me-2"></i>Farhan Ahmed (Student)</a></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="club_rep"><i class="bi bi-flag text-info me-2"></i>Robotics Lead (Club Rep)</a></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="admin"><i class="bi bi-shield-check text-danger me-2"></i>Prof. Rahman (Admin)</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="dashboard.html"><i class="bi bi-speedometer2 text-success me-2"></i>Open Full Dashboard</a></li>
-              <li><a class="dropdown-item text-danger" href="#" data-action="logout" onclick="handleLogout(event)"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
-              <li><a class="dropdown-item text-muted small" href="#" id="btn-reset-demo-data"><i class="bi bi-arrow-counterclockwise me-2"></i>Reset Demo Data</a></li>
-            </ul>
-          </li>
+          
         </ul>
       </div>
     </div>
@@ -68,7 +55,7 @@
   <!-- Hero Section -->
   <header class="home-hero-section">
     <div class="container">
-      <div class="row align-items-center g-5">
+      <div class="row align-items-center g-4 g-lg-5">
         
         <!-- Left: Kicker, Big Display Serif Headline, Subtitle & Button -->
         <div class="col-lg-6">
@@ -126,7 +113,7 @@
             <div class="home-club-card" onclick="window.location.href='club-profile.html?id=club_04'" style="cursor: pointer;">
               <div class="club-circle-avatar">B</div>
               <h3 class="home-club-title">Business Club</h3>
-              <p class="home-club-desc">Turn ideas into impact and grow with peers.</p>
+              <p class="home-club-desc">Work on business ideas with other students.</p>
               <div>
                 <a href="club-profile.html?id=club_04" class="home-club-action">View club &rarr;</a>
               </div>
@@ -138,7 +125,7 @@
             <div class="home-club-card" onclick="window.location.href='club-profile.html?id=club_06'" style="cursor: pointer;">
               <div class="club-circle-avatar">D</div>
               <h3 class="home-club-title">Debate Society</h3>
-              <p class="home-club-desc">Sharpen your voice in meaningful discussions.</p>
+              <p class="home-club-desc">Practice debating and public speaking.</p>
               <div>
                 <a href="club-profile.html?id=club_06" class="home-club-action">View club &rarr;</a>
               </div>

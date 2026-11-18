@@ -8,41 +8,103 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
+  /* ==========================================================================
+     EDUConnect Design System Tokens (East Delta University)
+     ========================================================================== */
+  /* Primary Maroon Scale */
   --edu-maroon: #58101e;
   --edu-maroon-dark: #380811;
+  --edu-maroon-deep: #24060d;
+  --edu-maroon-hero: #440d1a;
   --edu-maroon-light: #721627;
+  --edu-maroon-hover: #721627;
+  --edu-maroon-soft: #faeef1;
+  --edu-maroon-subtle: #fcf2f4;
+
+  /* Academic Gold Scale */
   --edu-gold: #d89b27;
   --edu-gold-hover: #ebac36;
   --edu-gold-soft: #fcf6eb;
   --edu-gold-bg: #dfa838;
+  --edu-gold-deep: #b8821a;
+
+  /* Dark Charcoal & Neutrals */
   --edu-charcoal: #17070b;
   --edu-charcoal-light: #2b2227;
+  --edu-navy: #17070b; /* Alias to prevent silent fallback */
 
   /* Global Theme Aliases */
-  --edu-primary: #58101e;
-  --edu-primary-hover: #721627;
-  --edu-primary-soft: #faeef1;
-  --edu-secondary: #d89b27;
+  --edu-primary: var(--edu-maroon);
+  --edu-primary-hover: var(--edu-maroon-light);
+  --edu-primary-soft: var(--edu-maroon-soft);
+  --edu-secondary: var(--edu-gold);
   --edu-accent: #059669;
   --edu-warning: #d97706;
   --edu-danger: #dc2626;
+  --edu-info: #0284c7;
+
+  /* Surfaces & Backgrounds */
   --edu-bg: #fdfaf6;
+  --edu-home-bg: #faf6f0;
   --edu-card-bg: #ffffff;
   --edu-border: #ebd8dc;
   --edu-border-hover: #dec4cb;
+  --edu-border-subtle: #f4eaec;
   --edu-text-dark: #1c080e;
   --edu-text-muted: #735d64;
 
+  /* Typography */
   --edu-serif: 'DM Serif Display', Georgia, serif;
   --edu-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --club-serif: var(--edu-serif); /* Fix for club-profile undefined font variable */
 
+  /* Elevation & Shadows */
   --edu-shadow-sm: 0 2px 4px 0 rgba(40, 8, 15, 0.05);
   --edu-shadow: 0 4px 12px -2px rgba(40, 8, 15, 0.08), 0 2px 6px -1px rgba(40, 8, 15, 0.04);
   --edu-shadow-lg: 0 12px 24px -4px rgba(40, 8, 15, 0.12), 0 4px 8px -2px rgba(40, 8, 15, 0.04);
+
+  /* Geometry */
   --edu-radius: 12px;
   --edu-radius-sm: 8px;
   --edu-radius-lg: 16px;
   --edu-radius-pill: 9999px;
+
+  /* Bootstrap 5 Theme Variable Bridge */
+  --bs-primary: #58101e;
+  --bs-primary-rgb: 88, 16, 30;
+  --bs-link-color: #58101e;
+  --bs-link-hover-color: #721627;
+  --bs-body-bg: var(--edu-bg);
+}
+
+/* --------------------------------------------------------------------------
+   Additive Brand Reference Tokens
+   Numeric maroon/gold scales and neutral aliases for new work. These do not
+   override the legacy --edu-* tokens above; existing pages keep their palette.
+   -------------------------------------------------------------------------- */
+:root {
+  /* EDU Brand Core */
+  --edu-maroon-50:  #FDF2F5;
+  --edu-maroon-100: #FCE7ED;
+  --edu-maroon-600: #8E1B43; /* Official Seal Maroon */
+  --edu-maroon-700: #781538;
+  --edu-maroon-800: #63112E;
+
+  --edu-gold-100:   #FBF3D5;
+  --edu-gold-500:   #D4A017; /* Institutional Gold */
+  --edu-gold-600:   #B5850D;
+
+  /* Neutrals */
+  --surface-base:   #FFFFFF;
+  --surface-muted:  #F8F9FA;
+  --border-subtle:  #E4E7EC;
+  --ink-primary:    #111827;
+  --ink-secondary:  #4B5563;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -61,28 +123,60 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   color: var(--edu-maroon-dark);
 }
 
+/* Bootstrap Theme Overrides for EduConnect Brand */
+.form-control:focus, .form-select:focus {
+  border-color: var(--edu-maroon) !important;
+  box-shadow: 0 0 0 0.25rem rgba(88, 16, 30, 0.18) !important;
+}
+
+.text-primary {
+  color: var(--edu-maroon) !important;
+}
+
+.bg-primary {
+  background-color: var(--edu-maroon) !important;
+}
+
+.bg-primary-subtle {
+  background-color: var(--edu-maroon-soft) !important;
+  color: var(--edu-maroon) !important;
+}
+
+.btn-primary {
+  background-color: var(--edu-maroon) !important;
+  border-color: var(--edu-maroon) !important;
+  color: #ffffff !important;
+}
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+  background-color: var(--edu-maroon-light) !important;
+  border-color: var(--edu-maroon-light) !important;
+  color: #ffffff !important;
+}
+
 /* ==========================================================================
    Global Navigation Bar (Dark Maroon Theme with Gold Accents)
    ========================================================================== */
 .edu-navbar {
-  background-color: var(--edu-charcoal) !important;
+  background: linear-gradient(180deg, var(--edu-charcoal) 0%, #150609 100%) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 4px 16px rgba(23, 7, 11, 0.35);
-  padding: 0.65rem 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  padding: 0.5rem 0;
   position: sticky;
   top: 0;
   z-index: 1030;
+  transition: all 0.25s ease;
 }
 
-.navbar-brand {
+.edu-navbar .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   font-family: var(--edu-serif);
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 3.2vw, 1.45rem);
   font-weight: 700;
   color: #ffffff !important;
   letter-spacing: 0.01em;
+  padding: 0.25rem 0;
 }
 
 .brand-gold {
@@ -102,37 +196,45 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   box-shadow: 0 4px 10px rgba(216, 155, 39, 0.3);
 }
 
-.nav-link {
+.edu-navbar .nav-link {
   font-family: var(--edu-sans);
   font-weight: 600;
-  font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.8) !important;
-  padding: 0.5rem 0.85rem !important;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 0.45rem 0.75rem !important;
   border-radius: var(--edu-radius-pill);
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.nav-link:hover, .nav-link.active {
+.edu-navbar .nav-link:hover {
   color: var(--edu-gold) !important;
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
-.nav-link i {
-  font-size: 1.1rem;
+.edu-navbar .nav-link.active {
+  color: var(--edu-gold) !important;
+  background-color: rgba(216, 155, 39, 0.12);
+  font-weight: 700;
+}
+
+.edu-navbar .nav-link i {
+  font-size: 1.05rem;
 }
 
 .nav-badge-pill {
-  font-size: 0.7rem;
-  padding: 0.2rem 0.5rem;
+  font-size: 0.68rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 9999px;
   background-color: var(--edu-gold);
   color: var(--edu-charcoal);
-  font-weight: 700;
-  margin-left: 0.2rem;
+  font-weight: 800;
+  margin-left: 0.25rem;
+  line-height: 1;
 }
+
 
 /* ==========================================================================
    Cards & Layout Components
@@ -174,7 +276,7 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 
 .sidebar-cover {
   height: 70px;
-  background: linear-gradient(135deg, #1e3a8a, #0284c7);
+  background: linear-gradient(135deg, var(--edu-maroon), var(--edu-gold));
   width: 100%;
 }
 
@@ -208,14 +310,59 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   height: 130px;
 }
 
-.club-logo-img {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+/* Club Card Cover & Elevated Avatar Stacking */
+.club-card-cover {
+  height: 115px;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--edu-maroon-dark);
+}
+
+.club-card-cover-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border: 2px solid #ffffff;
-  box-shadow: var(--edu-shadow-sm);
-  background-color: #f1f5f9;
+  transition: transform 0.35s ease;
+  display: block;
+}
+
+.edu-card-hover:hover .club-card-cover-img {
+  transform: scale(1.06);
+}
+
+.club-card-cover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(27, 54, 93, 0.3) 0%, rgba(139, 30, 45, 0.75) 100%);
+  pointer-events: none;
+}
+
+.club-card-body {
+  position: relative;
+  z-index: 2;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.club-logo-wrap {
+  position: relative;
+  z-index: 10;
+  margin-top: -36px;
+}
+
+.club-logo-img {
+  width: 68px;
+  height: 68px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 3.5px solid #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  background-color: #ffffff;
+  position: relative;
+  z-index: 11;
+  display: block;
 }
 
 /* ==========================================================================
@@ -482,23 +629,6 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   padding-bottom: 25px;
 }
 
-/* ==========================================================================
-   Sidebar & Left Rail
-   ========================================================================== */
-.sidebar-profile-card {
-  text-align: center;
-}
-
-.sidebar-cover {
-  height: 70px;
-  background: linear-gradient(135deg, #3d0d16, #d89b27);
-  width: 100%;
-}
-
-.sidebar-avatar-wrap {
-  margin-top: -38px;
-  margin-bottom: 0.75rem;
-}
 
 /* ==========================================================================
    Event Card Date Badge
@@ -596,31 +726,6 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   font-size: 1.5rem;
 }
 
-/* ==========================================================================
-   Demo Credentials Callout Box
-   ========================================================================== */
-.demo-credentials-box {
-  background-color: #f0f9ff;
-  border: 1px solid #bae6fd;
-  border-radius: var(--edu-radius);
-  padding: 1.25rem;
-}
-
-.demo-account-pill {
-  cursor: pointer;
-  background: #ffffff;
-  border: 1px solid #bae6fd;
-  border-radius: 8px;
-  padding: 0.6rem 0.85rem;
-  transition: all 0.2s ease;
-  text-align: left;
-}
-
-.demo-account-pill:hover {
-  background-color: #e0f2fe;
-  border-color: #7dd3fc;
-  transform: translateY(-1px);
-}
 
 /* ==========================================================================
    Toast Notification Styling
@@ -695,26 +800,6 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
    Follows the exact UI/UX specification in the user mockup
    ========================================================================== */
 
-/* Top bar dark theme for club profile */
-.club-profile-nav {
-  background-color: #17070b !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-}
-.club-profile-nav .navbar-brand {
-  color: #ffffff !important;
-  font-family: var(--club-serif) !important;
-  font-size: 1.4rem !important;
-}
-.club-profile-nav .brand-gold {
-  color: #dfa838 !important;
-}
-.club-profile-nav .nav-link {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
-.club-profile-nav .nav-link:hover, .club-profile-nav .nav-link.active {
-  color: #dfa838 !important;
-  background-color: transparent !important;
-}
 
 /* Hero Section */
 .club-profile-hero {
@@ -746,8 +831,8 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  border: 3px solid #d89b27;
-  background: radial-gradient(circle, #3d0d16 0%, #1a0509 100%);
+  border: 3px solid var(--edu-gold);
+  background: radial-gradient(circle, var(--edu-maroon-dark) 0%, #1a0509 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -757,20 +842,21 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 
 .club-emblem-icon {
   font-size: 2.75rem;
-  color: #dfa838;
+  color: var(--edu-gold);
 }
 
 .club-title-serif {
   font-family: var(--club-serif);
-  font-size: 3.5rem;
-  line-height: 1.05;
+  font-size: clamp(2rem, 4.5vw + 1rem, 3.5rem);
+  line-height: 1.1;
   color: #ffffff;
   margin-bottom: 0.5rem;
   letter-spacing: -0.01em;
+  word-break: break-word;
 }
 
 .club-subtitle-gold {
-  color: #dfa838;
+  color: var(--edu-gold);
   font-size: 1.15rem;
   font-weight: 500;
   margin-bottom: 1.75rem;
@@ -778,10 +864,10 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 
 /* Buttons */
 .btn-gold-pill {
-  background-color: #d89b27;
-  color: #1f070e;
+  background-color: var(--edu-gold);
+  color: var(--edu-charcoal);
   font-weight: 700;
-  border-radius: 9999px;
+  border-radius: var(--edu-radius-pill);
   padding: 0.55rem 1.4rem;
   border: none;
   font-size: 0.92rem;
@@ -791,8 +877,8 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   gap: 0.4rem;
 }
 .btn-gold-pill:hover {
-  background-color: #ebac36;
-  color: #150409;
+  background-color: var(--edu-gold-hover);
+  color: #000000;
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(216, 155, 39, 0.4);
 }
@@ -801,7 +887,7 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   background-color: rgba(0, 0, 0, 0.45);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 9999px;
+  border-radius: var(--edu-radius-pill);
   padding: 0.55rem 1.3rem;
   font-weight: 600;
   font-size: 0.92rem;
@@ -813,17 +899,17 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 }
 
 .btn-maroon-pill {
-  background-color: #58101e;
+  background-color: var(--edu-maroon);
   color: #ffffff;
   font-weight: 700;
-  border-radius: 9999px;
+  border-radius: var(--edu-radius-pill);
   padding: 0.5rem 1.35rem;
   border: none;
   font-size: 0.88rem;
   transition: all 0.2s ease;
 }
 .btn-maroon-pill:hover {
-  background-color: #721627;
+  background-color: var(--edu-maroon-light);
   color: #ffffff;
   transform: translateY(-1px);
 }
@@ -880,36 +966,36 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   position: relative;
   overflow: hidden;
 }
-.polaroid-media-box.maroon-bg { background-color: #6b1725; }
-.polaroid-media-box.gold-bg { background-color: #b8861d; }
-.polaroid-media-box.charcoal-bg { background-color: #2b2227; }
+.polaroid-media-box.maroon-bg { background-color: var(--edu-maroon); }
+.polaroid-media-box.gold-bg { background-color: var(--edu-gold-deep); }
+.polaroid-media-box.charcoal-bg { background-color: var(--edu-charcoal); }
 
 .polaroid-content {
   padding: 0.45rem 0.25rem 0.2rem;
 }
 .polaroid-title {
   font-weight: 700;
-  color: #17070b;
+  color: var(--edu-charcoal);
   font-size: 0.88rem;
   line-height: 1.2;
 }
 .polaroid-sub {
-  color: #78656a;
+  color: var(--edu-text-muted);
   font-size: 0.72rem;
 }
 
 /* Club Meta Strip below Hero */
 .club-meta-strip {
-  background-color: #24060d;
+  background-color: var(--edu-maroon-deep);
   color: #ffffff;
   padding: 0.85rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .social-pill-btn {
-  background-color: #3b0e17;
+  background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
-  border: 1px solid #5d1a27;
-  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--edu-radius-pill);
   padding: 0.35rem 0.95rem;
   font-size: 0.82rem;
   font-weight: 600;
@@ -917,22 +1003,22 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   transition: all 0.2s ease;
 }
 .social-pill-btn:hover {
-  background-color: #551422;
+  background-color: rgba(255, 255, 255, 0.25);
   color: #ffffff;
 }
 
 /* Subnav Anchor Pills */
 .subnav-pills-bar {
   background-color: #ffffff;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid #eee5e7;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--edu-border);
 }
 .subnav-pill {
   background-color: #ffffff;
-  border: 1px solid #d1b8be;
-  color: #4a1520;
-  border-radius: 9999px;
-  padding: 0.45rem 1.4rem;
+  border: 1px solid var(--edu-border);
+  color: var(--edu-maroon);
+  border-radius: var(--edu-radius-pill);
+  padding: 0.45rem 1.35rem;
   font-weight: 600;
   font-size: 0.92rem;
   text-decoration: none;
@@ -940,22 +1026,22 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   display: inline-block;
 }
 .subnav-pill:hover, .subnav-pill.active {
-  background-color: #58101e;
-  border-color: #58101e;
+  background-color: var(--edu-maroon);
+  border-color: var(--edu-maroon);
   color: #ffffff;
 }
 
 /* General Club Section Heading */
 .club-section-heading {
   font-family: var(--club-serif);
-  font-size: 2.4rem;
+  font-size: clamp(1.6rem, 3vw + 0.8rem, 2.4rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
 }
 
 /* Photo Cards 3-Grid */
 .club-photo-card {
-  border-radius: 8px;
+  border-radius: var(--edu-radius-sm);
   height: 220px;
   position: relative;
   overflow: hidden;
@@ -971,13 +1057,13 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   transform: translateY(-3px);
 }
 .club-photo-card.maroon {
-  background-color: #631422;
+  background-color: var(--edu-maroon-dark);
 }
 .club-photo-card.gold {
-  background-color: #b8861d;
+  background-color: var(--edu-gold-deep);
 }
 .club-photo-card.charcoal {
-  background-color: #2b2227;
+  background-color: var(--edu-charcoal);
 }
 .club-photo-label {
   font-size: 0.85rem;
@@ -997,14 +1083,14 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 .club-goals-list li {
   font-family: var(--club-serif);
   font-size: 1.15rem;
-  color: #3b0e17;
+  color: var(--edu-maroon-dark);
   padding: 0.45rem 0;
-  border-bottom: 1px dashed #e6d3d7;
+  border-bottom: 1px dashed var(--edu-border);
 }
 
 /* Events Section (Deep Maroon Background) */
 .club-events-section {
-  background-color: #3e0b15;
+  background-color: var(--edu-maroon-hero);
   color: #ffffff;
   padding: 4rem 0;
 }
@@ -1015,34 +1101,35 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 /* Ticket Card */
 .event-ticket-card {
   background-color: #ffffff;
-  border-radius: 12px;
+  border-radius: var(--edu-radius);
   padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.25rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  color: #17070b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  color: var(--edu-charcoal);
+  border: 1px solid var(--edu-border-subtle);
 }
 
 .ticket-date-block {
   text-align: center;
   min-width: 80px;
   padding-right: 1.5rem;
-  border-right: 2px dashed #e0c8ce;
+  border-right: 2px dashed var(--edu-border);
   margin-right: 1.5rem;
 }
 .ticket-date-num {
   font-family: var(--club-serif);
   font-size: 2.2rem;
   line-height: 1;
-  color: #58101e;
+  color: var(--edu-maroon);
   font-weight: 700;
 }
 .ticket-date-mon {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #58101e;
+  color: var(--edu-maroon);
   text-transform: uppercase;
 }
 
@@ -1054,18 +1141,18 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   font-size: 1.35rem;
   font-weight: 700;
   margin-bottom: 0.2rem;
-  color: #17070b;
+  color: var(--edu-charcoal);
 }
 .ticket-meta {
-  color: #6d5b60;
+  color: var(--edu-text-muted);
   font-size: 0.88rem;
 }
 
 /* Active Recruitments Section */
 .recruitment-card {
   background-color: #ffffff;
-  border: 1px solid #e0c8ce;
-  border-radius: 12px;
+  border: 1px solid var(--edu-border);
+  border-radius: var(--edu-radius);
   padding: 1.5rem;
   height: 100%;
   display: flex;
@@ -1075,11 +1162,12 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 .recruitment-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: var(--edu-border-hover);
 }
 
 .recruitment-close-pill {
-  background-color: #dfa838;
-  color: #1a080d;
+  background-color: var(--edu-gold);
+  color: var(--edu-charcoal);
   font-weight: 700;
   font-size: 0.75rem;
   padding: 0.3rem 0.75rem;
@@ -1091,11 +1179,11 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 .recruitment-role-title {
   font-family: var(--club-serif);
   font-size: 1.45rem;
-  color: #17070b;
+  color: var(--edu-charcoal);
   margin-bottom: 0.5rem;
 }
 .recruitment-desc {
-  color: #665056;
+  color: var(--edu-text-muted);
   font-size: 0.88rem;
   margin-bottom: 1.25rem;
   flex-grow: 1;
@@ -1103,27 +1191,27 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 
 /* Achievements Section (Warm Mustard Gold) */
 .club-achievements-section {
-  background-color: #dfa838;
-  color: #1c080e;
+  background-color: var(--edu-gold-bg);
+  color: var(--edu-text-dark);
   padding: 4rem 0 4.5rem;
 }
 .club-achievements-section .club-section-heading {
-  color: #1c080e;
+  color: var(--edu-text-dark);
 }
 
 .achievement-stat-num {
   font-family: var(--club-serif);
-  font-size: 3.8rem;
+  font-size: clamp(2.5rem, 4vw + 1rem, 3.8rem);
   line-height: 1;
   font-weight: 700;
-  color: #1c080e;
+  color: var(--edu-text-dark);
   margin-bottom: 0.25rem;
 }
 .achievement-stat-title {
   font-family: var(--club-serif);
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1c080e;
+  color: var(--edu-text-dark);
   margin-bottom: 0.2rem;
 }
 .achievement-stat-sub {
@@ -1133,33 +1221,33 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 
 /* Club Minimalist Footer */
 .club-minimal-footer {
-  background-color: #f7ede0;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background-color: var(--edu-gold-soft);
+  border-top: 1px solid var(--edu-border);
   padding: 1.25rem 0;
   text-align: center;
   font-size: 0.82rem;
-  color: #6b5540;
+  color: var(--edu-text-muted);
   font-family: var(--club-serif);
 }
 
 /* ==========================================================================
-   Homepage (index.html) Theme - Identical Match to East Delta University Mockup
+   Homepage (index.html) Theme - East Delta University Design System
    ========================================================================== */
 .edu-home-page {
-  background-color: #faf6f0;
-  color: #1a080d;
+  background-color: var(--edu-home-bg);
+  color: var(--edu-text-dark);
 }
 
-/* Homepage Navbar (Seamless deep maroon background) */
+/* Homepage Navbar */
 .home-navbar {
-  background-color: #440d1a !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 1.25rem 0;
+  background-color: var(--edu-maroon-hero) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1rem 0;
 }
 
 .home-brand {
   font-family: var(--edu-serif);
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #ffffff !important;
   text-decoration: none;
@@ -1167,36 +1255,41 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 }
 
 .home-nav-link {
-  color: #eed7dc !important;
+  color: var(--edu-maroon-soft) !important;
   font-weight: 500;
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   text-decoration: none;
-  padding: 0.4rem 1.1rem;
+  padding: 0.45rem 1rem;
   transition: color 0.2s ease;
+  border-radius: var(--edu-radius-pill);
 }
 
 .home-nav-link:hover {
   color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .home-nav-login {
-  color: #dfa838 !important;
-  font-weight: 600;
-  font-size: 0.98rem;
+  color: var(--edu-gold) !important;
+  font-weight: 700;
+  font-size: 0.95rem;
   text-decoration: none;
-  padding: 0.4rem 1.1rem;
-  transition: color 0.2s ease;
+  padding: 0.45rem 1.15rem;
+  transition: all 0.2s ease;
+  border-radius: var(--edu-radius-pill);
+  border: 1px solid rgba(216, 155, 39, 0.35);
 }
 
 .home-nav-login:hover {
-  color: #f7be4b !important;
+  color: #000000 !important;
+  background-color: var(--edu-gold);
 }
 
 /* Homepage Hero Section */
 .home-hero-section {
-  background-color: #440d1a;
+  background-color: var(--edu-maroon-hero);
   color: #ffffff;
-  padding: 4.5rem 0 5.5rem;
+  padding: clamp(3rem, 6vw, 5.5rem) 0;
   position: relative;
 }
 
@@ -1205,56 +1298,57 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   letter-spacing: 0.18em;
   font-weight: 600;
   text-transform: uppercase;
-  color: #d69ca6;
-  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.25rem;
 }
 
 .home-hero-headline {
   font-family: var(--edu-serif);
-  font-size: 4.25rem;
-  line-height: 1.05;
+  font-size: clamp(2.25rem, 5vw + 1rem, 4.25rem);
+  line-height: 1.1;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 1.5rem;
   letter-spacing: -0.01em;
+  word-break: break-word;
 }
 
 .home-hero-headline .gold-text {
-  color: #dfa838;
+  color: var(--edu-gold);
 }
 
 .home-hero-sub {
-  color: #ebd3d9;
-  font-size: 1.18rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(1rem, 2vw, 1.18rem);
   line-height: 1.6;
-  max-width: 420px;
-  margin-bottom: 2.25rem;
+  max-width: 440px;
+  margin-bottom: 2rem;
   font-weight: 400;
 }
 
 .btn-hero-explore {
-  background-color: #dfa838;
-  color: #350812 !important;
+  background-color: var(--edu-gold);
+  color: var(--edu-charcoal) !important;
   font-weight: 700;
   font-size: 1.05rem;
   padding: 0.85rem 2.25rem;
-  border-radius: 999px;
+  border-radius: var(--edu-radius-pill);
   text-decoration: none;
   display: inline-block;
   transition: all 0.2s ease;
   border: none;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 
 .btn-hero-explore:hover {
-  background-color: #ebb543;
-  color: #20040a !important;
+  background-color: var(--edu-gold-hover);
+  color: #000000 !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
 .home-hero-img-wrap {
-  border-radius: 28px;
+  border-radius: var(--edu-radius-lg);
   overflow: hidden;
   box-shadow: 0 20px 44px rgba(15, 2, 5, 0.45);
 }
@@ -1264,7 +1358,7 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   height: auto;
   display: block;
   object-fit: cover;
-  border-radius: 28px;
+  border-radius: var(--edu-radius-lg);
 }
 
 /* Sections Common Header */
@@ -1277,80 +1371,80 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 
 .home-section-title {
   font-family: var(--edu-serif);
-  font-size: 2.3rem;
+  font-size: clamp(1.6rem, 3vw + 0.5rem, 2.3rem);
   font-weight: 700;
-  color: #1c060c;
+  color: var(--edu-charcoal);
   margin-bottom: 0;
 }
 
 .home-section-link {
-  color: #551120;
+  color: var(--edu-maroon);
   font-weight: 600;
   text-decoration: none;
-  font-size: 0.98rem;
-  transition: transform 0.2s ease, color 0.2s ease;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
 .home-section-link:hover {
-  color: #7b182d;
+  color: var(--edu-maroon-light);
   text-decoration: underline;
 }
 
 /* Popular Clubs Cards */
 .home-club-card {
-  background: #ffffff;
-  border: 1px solid #ebd9dc;
-  border-radius: 16px;
-  padding: 2.25rem 2rem;
+  background: var(--edu-card-bg);
+  border: 1px solid var(--edu-border);
+  border-radius: var(--edu-radius);
+  padding: 2rem 1.75rem;
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 10px rgba(35, 7, 13, 0.03);
+  box-shadow: var(--edu-shadow-sm);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   text-decoration: none;
 }
 
 .home-club-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 28px rgba(35, 7, 13, 0.08);
-  border-color: #dfc2c8;
+  box-shadow: var(--edu-shadow);
+  border-color: var(--edu-border-hover);
 }
 
 .club-circle-avatar {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: #f7e6e9;
-  color: #58101e;
+  background-color: var(--edu-maroon-soft);
+  color: var(--edu-maroon);
   font-family: var(--edu-serif);
   font-size: 1.4rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .home-club-title {
   font-family: var(--edu-sans);
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #17070b;
-  margin-bottom: 0.6rem;
+  color: var(--edu-charcoal);
+  margin-bottom: 0.5rem;
 }
 
 .home-club-desc {
-  color: #69555c;
-  font-size: 0.95rem;
+  color: var(--edu-text-muted);
+  font-size: 0.92rem;
   line-height: 1.55;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
   flex-grow: 1;
 }
 
 .home-club-action {
-  color: #58101e;
-  font-weight: 600;
-  font-size: 0.95rem;
+  color: var(--edu-maroon);
+  font-weight: 700;
+  font-size: 0.92rem;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -1358,19 +1452,19 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 
 /* Upcoming Events Container */
 .home-events-container {
-  background: #ffffff;
-  border: 1px solid #ebd9dc;
-  border-radius: 16px;
+  background: var(--edu-card-bg);
+  border: 1px solid var(--edu-border);
+  border-radius: var(--edu-radius);
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(35, 7, 13, 0.03);
+  box-shadow: var(--edu-shadow-sm);
 }
 
 .home-event-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.35rem 2.25rem;
-  border-bottom: 1px solid #f2e6e9;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--edu-border-subtle);
   transition: background-color 0.15s ease;
 }
 
@@ -1379,7 +1473,7 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 }
 
 .home-event-row:hover {
-  background-color: #fdf8f9;
+  background-color: var(--edu-maroon-subtle);
 }
 
 .home-event-date {
@@ -1388,21 +1482,21 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
   align-items: center;
   justify-content: center;
   min-width: 55px;
-  margin-right: 2rem;
+  margin-right: 1.75rem;
 }
 
 .home-event-date .event-month {
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #782637;
+  color: var(--edu-maroon-light);
   letter-spacing: 0.06em;
 }
 
 .home-event-date .event-day {
-  font-size: 1.7rem;
+  font-size: 1.65rem;
   font-weight: 800;
-  color: #440d1a;
+  color: var(--edu-maroon-hero);
   line-height: 1.05;
   font-family: var(--edu-sans);
 }
@@ -1413,18 +1507,18 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 
 .home-event-title {
   font-weight: 700;
-  font-size: 1.1rem;
-  color: #17070b;
+  font-size: 1.05rem;
+  color: var(--edu-charcoal);
   text-decoration: none;
 }
 
 .home-event-title:hover {
-  color: #58101e;
+  color: var(--edu-maroon);
 }
 
 .home-event-meta {
-  color: #69555c;
-  font-size: 0.95rem;
+  color: var(--edu-text-muted);
+  font-size: 0.92rem;
   font-weight: 400;
   text-align: right;
   white-space: nowrap;
@@ -1433,37 +1527,476 @@ h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
 /* Homepage Footer */
 .home-footer {
   background-color: transparent;
-  border-top: 1px solid #ebd9dc;
+  border-top: 1px solid var(--edu-border);
   padding: 2.25rem 0 2.5rem;
 }
 
 .home-footer-left {
-  color: #543e45;
-  font-size: 0.95rem;
+  color: var(--edu-text-muted);
+  font-size: 0.92rem;
   font-weight: 500;
 }
 
 .home-footer-right {
   font-family: var(--edu-serif);
   font-style: italic;
-  color: #543e45;
-  font-size: 1.1rem;
+  color: var(--edu-text-muted);
+  font-size: 1.05rem;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .home-hero-headline {
-    font-size: 3rem;
+/* ==========================================================================
+   Responsive Architecture & Media Queries
+   ========================================================================== */
+
+/* Navbar fluid search form */
+.navbar-search-form {
+  width: 240px;
+  max-width: 100%;
+}
+
+.navbar-search-form input {
+  transition: all 0.25s ease;
+}
+
+.navbar-search-form input:focus {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  border-color: var(--edu-gold) !important;
+  box-shadow: 0 0 0 0.2rem rgba(216, 155, 39, 0.25) !important;
+  color: #ffffff !important;
+}
+
+@media (min-width: 1200px) {
+  .navbar-search-form {
+    width: 260px;
   }
+  .navbar-search-form input:focus {
+    width: 320px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .edu-navbar .nav-link {
+    padding: 0.38rem 0.5rem !important;
+    font-size: 0.82rem;
+    gap: 0.25rem;
+  }
+  .edu-navbar .navbar-brand {
+    font-size: 1.15rem;
+  }
+  .navbar-search-form {
+    width: 150px !important;
+  }
+  .navbar-search-form input {
+    font-size: 0.78rem;
+    padding-left: 2.1rem !important;
+  }
+}
+
+/* Mobile & Tablet (< 992px) Navigation Overhaul */
+@media (max-width: 991.98px) {
+  .edu-navbar {
+    padding: 0.45rem 0;
+  }
+
+  .edu-navbar .navbar-toggler,
+  .home-navbar .navbar-toggler {
+    padding: 0.35rem;
+    line-height: 1;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+
+  .edu-navbar .navbar-toggler:focus,
+  .home-navbar .navbar-toggler:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    outline: none;
+    box-shadow: none;
+  }
+
+  .edu-navbar .navbar-collapse {
+    background: linear-gradient(180deg, var(--edu-charcoal) 0%, #110407 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+    margin-top: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75);
+  }
+
+  .home-navbar .navbar-collapse {
+    background-color: var(--edu-maroon-hero);
+    padding: 1.25rem;
+    border-radius: 14px;
+    margin-top: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75);
+  }
+
+  /* Full-width touch-friendly mobile drawer links */
+  .edu-navbar .navbar-nav .nav-link {
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.96rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88) !important;
+    min-height: 44px; /* WCAG 2.5.5 touch target */
+  }
+
+  .edu-navbar .navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--edu-gold) !important;
+  }
+
+  .edu-navbar .navbar-nav .nav-link.active {
+    background-color: rgba(216, 155, 39, 0.15) !important;
+    color: var(--edu-gold) !important;
+    border-left: 3px solid var(--edu-gold);
+    font-weight: 700;
+  }
+
+  /* User chip container inside mobile drawer */
+  .edu-navbar .nav-item.dropdown {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: 0.65rem;
+    padding-top: 0.75rem;
+  }
+
+  /* Prevent dropdown menus from clipping offscreen on mobile */
+  .edu-navbar .dropdown-menu,
+  .home-navbar .dropdown-menu {
+    position: static !important;
+    float: none !important;
+    width: 100% !important;
+    margin-top: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 0.5rem;
+  }
+
+  .edu-navbar .dropdown-item,
+  .home-navbar .dropdown-item {
+    color: rgba(255, 255, 255, 0.85);
+    padding: 0.65rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .edu-navbar .dropdown-item:hover,
+  .home-navbar .dropdown-item:hover {
+    background-color: rgba(216, 155, 39, 0.18);
+    color: var(--edu-gold);
+  }
+
+  .edu-navbar .dropdown-header,
+  .home-navbar .dropdown-header {
+    color: var(--edu-gold);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.4rem 1rem;
+  }
+
+  .edu-navbar .dropdown-divider,
+  .home-navbar .dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* Mobile Devices (< 768px) Component Fixes */
+@media (max-width: 767.98px) {
+  /* Homepage events row column alignment */
   .home-event-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
-    padding: 1.25rem 1.5rem;
+    gap: 0.6rem;
+    padding: 1.1rem 1.25rem;
   }
+
+  .home-event-row .home-event-date {
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-right: 0;
+    align-items: baseline;
+  }
+
   .home-event-meta {
     text-align: left;
-    margin-left: calc(55px + 2rem);
+    white-space: normal;
+  }
+
+  /* Club profile ticket card responsive stacking */
+  .event-ticket-card {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .event-ticket-card .d-flex {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .event-ticket-card .ms-3 {
+    margin-left: 0 !important;
+  }
+
+  .event-ticket-card .btn-maroon-pill {
+    width: 100%;
+    text-align: center;
+    padding: 0.65rem 1rem;
+  }
+
+  /* Subnav pills bar on mobile: smooth horizontal scrolling strip */
+  .subnav-pills-bar {
+    padding: 0.65rem 0;
+  }
+  .subnav-pills-bar .d-flex {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .subnav-pills-bar .d-flex::-webkit-scrollbar {
+    display: none;
+  }
+  .subnav-pill {
+    flex-shrink: 0;
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* Polaroid grid on mobile: clean fit without clipped rotations */
+  .featured-polaroid-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .featured-polaroid-card {
+    transform: none !important;
+  }
+  .polaroid-media-box {
+    height: 95px;
+  }
+  .polaroid-title {
+    font-size: 0.82rem;
+  }
+  .polaroid-sub {
+    font-size: 0.7rem;
+  }
+
+  /* Profile Header on Mobile */
+  .profile-cover-header {
+    height: 150px;
+  }
+  .profile-avatar-large {
+    width: 80px;
+    height: 80px;
+  }
+  .profile-avatar-holder {
+    bottom: -40px;
+    left: 20px;
+  }
+  .profile-info-bar {
+    padding-top: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
+
+/* Touch Targets WCAG 2.1 Compliance */
+.nav-link, .btn, .feed-tab-btn, .post-action-btn, .navbar-toggler {
+  min-height: 38px;
+}
+.btn-sm {
+  min-height: 32px;
+}
+
+/* Registration Tabs Responsive Refinements */
+#registrationTabs .nav-link {
+  font-size: clamp(0.78rem, 2.5vw, 0.95rem);
+  padding: 0.55rem 0.75rem;
+  color: var(--edu-charcoal);
+  transition: all 0.2s ease;
+  white-space: normal;
+  text-align: center;
+}
+#registrationTabs .nav-link.active {
+  background-color: var(--edu-maroon);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Component State Consistency
+   Bootstrap defaults are overridden only where a branded state is missing.
+   ========================================================================== */
+#adminMainTabs .nav-link {
+  color: var(--edu-maroon);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+#adminMainTabs .nav-link.active {
+  background-color: var(--edu-maroon);
+  color: #ffffff;
+}
+
+[data-notif-filter] {
+  border-radius: var(--edu-radius-pill);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+[data-notif-filter].active {
+  background-color: var(--edu-maroon) !important;
+  border-color: var(--edu-maroon) !important;
+  color: #ffffff !important;
+}
+
+.btn-white {
+  background-color: #ffffff;
+  color: var(--edu-charcoal);
+  border: 1px solid var(--edu-border);
+  border-radius: 8px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.btn-white:hover {
+  background-color: var(--edu-maroon-soft);
+  border-color: var(--edu-maroon);
+  color: var(--edu-maroon);
+}
+
+/* Visible keyboard focus for branded controls that replace Bootstrap defaults. */
+.btn:focus-visible,
+.btn-white:focus-visible,
+.btn-maroon-pill:focus-visible,
+.btn-gold-pill:focus-visible,
+.nav-link:focus-visible,
+.feed-tab-btn:focus-visible,
+.post-action-btn:focus-visible,
+[data-notif-filter]:focus-visible,
+.subnav-pill:focus-visible {
+  outline: 2px solid var(--edu-gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 991.98px) {
+  .edu-navbar .navbar-toggler:focus-visible,
+  .home-navbar .navbar-toggler:focus-visible {
+    outline: 2px solid var(--edu-gold);
+    outline-offset: 2px;
+  }
+}
+
+/* ==========================================================================
+   Design System Consistency Extensions
+   ========================================================================== */
+
+/* Universal Portal Body Background */
+.edu-portal-body {
+  background-color: var(--edu-bg) !important;
+  color: var(--edu-text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Universal Page Header Banner across all portal pages */
+.page-header-banner {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--edu-border);
+  padding: 1.4rem 0;
+  box-shadow: 0 1px 3px rgba(40, 8, 15, 0.03);
+}
+
+.page-header-banner .serif-heading {
+  font-family: var(--edu-serif);
+  font-weight: 700;
+  color: var(--edu-maroon-dark);
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  letter-spacing: -0.01em;
+}
+
+.page-header-banner p {
+  color: var(--edu-text-muted);
+}
+
+/* Institutional Count & Status Badges */
+.edu-count-badge {
+  background-color: var(--edu-maroon-soft);
+  color: var(--edu-maroon);
+  border: 1px solid var(--edu-border);
+  border-radius: var(--edu-radius-pill);
+  padding: 0.35rem 0.95rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Universal Portal Footer across all portal pages */
+.edu-portal-footer {
+  background-color: #ffffff;
+  border-top: 1px solid var(--edu-border);
+  padding: 1.15rem 0;
+  color: var(--edu-text-muted);
+  font-size: 0.84rem;
+  margin-top: auto;
+}
+
+.edu-portal-footer .brand-label {
+  font-family: var(--edu-serif);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--edu-maroon-dark);
+}
+
+/* Branded Nav Pills (used in tabs, filters, admin tables) */
+.nav-pills .nav-link {
+  color: var(--edu-text-dark);
+  font-weight: 600;
+  border-radius: var(--edu-radius-pill);
+  transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link:hover {
+  color: var(--edu-maroon);
+  background-color: var(--edu-maroon-soft);
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: var(--edu-maroon) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(88, 16, 30, 0.25);
+}
+
+/* Table Header Consistency */
+.table thead th {
+  background-color: var(--edu-maroon-soft);
+  color: var(--edu-maroon-dark);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--edu-border);
+  padding: 0.85rem 1rem;
+}
+
+.table tbody td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--edu-border-subtle);
+}
+
+.table-hover tbody tr:hover {
+  background-color: #faf5f6;
+}
+
 

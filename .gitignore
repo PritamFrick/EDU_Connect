@@ -1,0 +1,9 @@
+# Temporary and analysis artifacts
+graphify-out/
+.playwright-mcp/
+.system_generated/
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db

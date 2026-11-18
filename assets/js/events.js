@@ -1,8 +1,15 @@
 /**
  * EDUConnect - Events & Activities Management Script (events.js)
  * Created for CSE 242 University Project
- * Handles Event Discovery, Category Filters, Registration/Cancellation, and Details Modal.
+ *
+ * Powers university events discovery, real-time search, category filtering,
+ * interactive RSVP registration/cancellation with seat capacity tracking,
+ * and comprehensive event detail modals.
  */
+
+/* ==========================================================================
+   1. Lifecycle & Page Initialization
+   ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('events-grid')) {
@@ -10,6 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+/* ==========================================================================
+   2. Events Directory Logic
+   ========================================================================== */
+
+/**
+ * Initializes the Events Directory view:
+ * - Binds search inputs and category filter dropdown.
+ * - Renders event cards with calendar date blocks, organizer tags, seat capacity bars, and RSVP buttons.
+ * - Handles empty search results state.
+ */
 function initEventsPage() {
   const searchInput = document.getElementById('event-search-input');
   const categoryFilter = document.getElementById('event-category-filter');
@@ -17,6 +34,11 @@ function initEventsPage() {
   const emptyState = document.getElementById('events-empty-state');
   const countBadge = document.getElementById('events-count');
 
+  if (!grid) return;
+
+  /**
+   * Filters and renders event cards matching active criteria.
+   */
   function renderList() {
     const events = getStorage(STORAGE_KEYS.EVENTS, INITIAL_EVENTS);
     const currentUser = getCurrentUser();
@@ -47,22 +69,29 @@ function initEventsPage() {
     if (emptyState) emptyState.classList.add('d-none');
 
     grid.innerHTML = filtered.map(evt => {
-      // Parse date
+      // Parse event date safely
       const dateObj = new Date(evt.date);
-      const monthStr = dateObj.toLocaleString('en-US', { month: 'short' });
-      const dayStr = dateObj.getDate();
+      const monthStr = isNaN(dateObj.getTime()) ? 'DATE' : dateObj.toLocaleString('en-US', { month: 'short' });
+      const dayStr = isNaN(dateObj.getTime()) ? '—' : dateObj.getDate();
 
       const isRegistered = currentUser && evt.registeredUserIds && evt.registeredUserIds.includes(currentUser.id);
       const isFull = evt.seatsRegistered >= evt.seatsTotal;
       const percentFilled = Math.min(100, Math.round((evt.seatsRegistered / evt.seatsTotal) * 100));
 
+      const safeTitle = escapeHtml(evt.title);
+      const safeClubName = escapeHtml(evt.clubName);
+      const safeCategory = escapeHtml(evt.category);
+      const safeTime = escapeHtml(evt.time);
+      const safeLocation = escapeHtml(evt.location);
+      const safeDescription = escapeHtml(evt.description);
+
       return `
         <div class="col-lg-6 mb-4">
           <div class="edu-card edu-card-hover h-100 d-flex flex-column">
             <!-- Event Banner -->
-            <div style="height: 140px; position: relative; overflow: hidden; background-color: #0f172a;">
-              <img src="${evt.banner}" alt="${evt.title}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
-              <span class="badge position-absolute top-0 end-0 m-3 shadow-sm" style="background-color: #d89b27; color: #1c080e;">${evt.category}</span>
+            <div style="height: 140px; position: relative; overflow: hidden; background-color: var(--edu-charcoal);">
+              <img src="${evt.banner}" alt="${safeTitle}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
+              <span class="badge position-absolute top-0 end-0 m-3 shadow-sm" style="background-color: var(--edu-gold); color: var(--edu-charcoal); font-weight: 700;">${safeCategory}</span>
               <div class="position-absolute bottom-0 start-0 m-3">
                 <span class="badge ${isRegistered ? 'bg-success' : 'bg-dark bg-opacity-75'}">
                   <i class="bi ${isRegistered ? 'bi-check-circle-fill' : 'bi-people'} me-1"></i>
@@ -71,35 +100,35 @@ function initEventsPage() {
               </div>
             </div>
 
-            <!-- Content -->
+            <!-- Event Card Content -->
             <div class="p-3 d-flex flex-column flex-grow-1">
               <div class="d-flex align-items-start gap-3 mb-2">
-                <!-- Date block -->
+                <!-- Date Block -->
                 <div class="event-date-badge shadow-sm flex-shrink-0">
                   <div class="event-date-month">${monthStr}</div>
                   <div class="event-date-day">${dayStr}</div>
                 </div>
 
                 <div class="flex-grow-1">
-                  <h5 class="fw-bold mb-1 serif-heading text-dark">${evt.title}</h5>
-                  <div class="small fw-semibold mb-1" style="color: #58101e;">
-                    <i class="bi bi-flag-fill text-warning me-1"></i>${evt.clubName}
+                  <h5 class="fw-bold mb-1 serif-heading text-dark">${safeTitle}</h5>
+                  <div class="small fw-semibold mb-1" style="color: var(--edu-maroon);">
+                    <i class="bi bi-flag-fill text-warning me-1"></i>${safeClubName}
                   </div>
                 </div>
               </div>
 
               <div class="small text-muted mb-2">
-                <i class="bi bi-clock me-1 text-secondary"></i> ${evt.time}
+                <i class="bi bi-clock me-1 text-secondary"></i> ${safeTime}
               </div>
               <div class="small text-muted mb-3">
-                <i class="bi bi-geo-alt-fill me-1 text-danger"></i> ${evt.location}
+                <i class="bi bi-geo-alt-fill me-1 text-danger"></i> ${safeLocation}
               </div>
 
               <p class="small text-muted mb-3 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                ${evt.description}
+                ${safeDescription}
               </p>
 
-              <!-- Progress bar of capacity -->
+              <!-- Seat Capacity Progress Bar -->
               <div class="mb-3">
                 <div class="d-flex justify-content-between small text-muted mb-1">
                   <span>Capacity</span>
@@ -110,7 +139,7 @@ function initEventsPage() {
                 </div>
               </div>
 
-              <!-- Action buttons -->
+              <!-- Action Buttons -->
               <div class="border-top pt-3 d-flex gap-2">
                 <button class="btn btn-sm btn-edu-outline flex-grow-1" onclick="openEventDetailsModal('${evt.id}')">
                   <i class="bi bi-info-circle"></i> View Details
@@ -128,6 +157,7 @@ function initEventsPage() {
     }).join('');
   }
 
+  // Filter event listeners
   if (searchInput) searchInput.addEventListener('input', renderList);
   if (categoryFilter) categoryFilter.addEventListener('change', renderList);
 
@@ -140,11 +170,22 @@ function initEventsPage() {
     });
   }
 
+  // Initial render
   renderList();
+  setupCreateEventForm(renderList);
 }
 
+/* ==========================================================================
+   3. Event Registration / Cancellation
+   ========================================================================== */
+
 /**
- * Register or Cancel Registration for an Event
+ * Toggles registration (RSVP) status for the current user on a given event:
+ * - Checks seating capacity before confirming registration.
+ * - Updates user list and registered seats counter in LocalStorage.
+ * - Issues an in-app confirmation notification.
+ *
+ * @param {string} eventId - Unique ID of the event.
  */
 function toggleEventRegistration(eventId) {
   const currentUser = getCurrentUser();
@@ -178,7 +219,7 @@ function toggleEventRegistration(eventId) {
     setStorage(STORAGE_KEYS.EVENTS, events);
     showToast(`Successfully registered for "${evt.title}"!`, 'success');
 
-    // Add a notification
+    // Create in-app notification
     const notifs = getStorage(STORAGE_KEYS.NOTIFICATIONS, []);
     notifs.unshift({
       id: 'notif_' + Date.now(),
@@ -192,22 +233,31 @@ function toggleEventRegistration(eventId) {
     setStorage(STORAGE_KEYS.NOTIFICATIONS, notifs);
   }
 
-  // Refresh page list
+  // Re-render directory list if visible
   if (document.getElementById('events-grid')) {
     initEventsPage();
   }
 
-  // Update modal state if open
+  // Sync state with modal button if modal is open
   const modalBtn = document.getElementById('modal-register-btn');
   if (modalBtn) {
     const updatedStatus = evt.registeredUserIds.includes(currentUser.id);
     modalBtn.className = `btn ${updatedStatus ? 'btn-outline-danger' : 'btn-edu-primary'} px-4`;
-    modalBtn.innerHTML = `<i class="bi ${updatedStatus ? 'bi-x-circle' : 'bi-check-circle'} me-1"></i> ${updatedStatus ? 'Cancel Registration' : 'Confirm Registration'}`;
+    modalBtn.innerHTML = `
+      <i class="bi ${updatedStatus ? 'bi-x-circle' : 'bi-check-circle'} me-1"></i>
+      ${updatedStatus ? 'Cancel Registration' : 'Confirm Registration'}
+    `;
   }
 }
 
+/* ==========================================================================
+   4. Event Details Modal Dialog
+   ========================================================================== */
+
 /**
- * Open Event Details in Bootstrap Modal
+ * Opens and populates the Event Details Bootstrap modal dialog.
+ *
+ * @param {string} eventId - Unique ID of the event to inspect.
  */
 function openEventDetailsModal(eventId) {
   const events = getStorage(STORAGE_KEYS.EVENTS, INITIAL_EVENTS);
@@ -217,15 +267,25 @@ function openEventDetailsModal(eventId) {
   const currentUser = getCurrentUser();
   const isRegistered = currentUser && evt.registeredUserIds && evt.registeredUserIds.includes(currentUser.id);
 
-  document.getElementById('modal-event-title').textContent = evt.title;
-  document.getElementById('modal-event-banner').src = evt.banner;
-  document.getElementById('modal-event-club').textContent = evt.clubName;
-  document.getElementById('modal-event-category').textContent = evt.category;
-  document.getElementById('modal-event-date').textContent = evt.date;
-  document.getElementById('modal-event-time').textContent = evt.time;
-  document.getElementById('modal-event-location').textContent = evt.location;
-  document.getElementById('modal-event-desc').textContent = evt.description;
-  document.getElementById('modal-event-seats').textContent = `${evt.seatsRegistered} / ${evt.seatsTotal} seats booked`;
+  const titleEl = document.getElementById('modal-event-title');
+  const bannerEl = document.getElementById('modal-event-banner');
+  const clubEl = document.getElementById('modal-event-club');
+  const catEl = document.getElementById('modal-event-category');
+  const dateEl = document.getElementById('modal-event-date');
+  const timeEl = document.getElementById('modal-event-time');
+  const locEl = document.getElementById('modal-event-location');
+  const descEl = document.getElementById('modal-event-desc');
+  const seatsEl = document.getElementById('modal-event-seats');
+
+  if (titleEl) titleEl.textContent = evt.title;
+  if (bannerEl) bannerEl.src = evt.banner;
+  if (clubEl) clubEl.textContent = evt.clubName;
+  if (catEl) catEl.textContent = evt.category;
+  if (dateEl) dateEl.textContent = evt.date;
+  if (timeEl) timeEl.textContent = evt.time;
+  if (locEl) locEl.textContent = evt.location;
+  if (descEl) descEl.textContent = evt.description;
+  if (seatsEl) seatsEl.textContent = `${evt.seatsRegistered} / ${evt.seatsTotal} seats booked`;
 
   const statusBadge = document.getElementById('modal-event-status-badge');
   if (statusBadge) {
@@ -236,7 +296,10 @@ function openEventDetailsModal(eventId) {
   const registerBtn = document.getElementById('modal-register-btn');
   if (registerBtn) {
     registerBtn.className = `btn ${isRegistered ? 'btn-outline-danger' : 'btn-edu-primary'} px-4`;
-    registerBtn.innerHTML = `<i class="bi ${isRegistered ? 'bi-x-circle' : 'bi-check-circle'} me-1"></i> ${isRegistered ? 'Cancel Registration' : 'Register for Event'}`;
+    registerBtn.innerHTML = `
+      <i class="bi ${isRegistered ? 'bi-x-circle' : 'bi-check-circle'} me-1"></i>
+      ${isRegistered ? 'Cancel Registration' : 'Register for Event'}
+    `;
     registerBtn.onclick = () => {
       toggleEventRegistration(evt.id);
     };
@@ -247,4 +310,82 @@ function openEventDetailsModal(eventId) {
     const modal = new bootstrap.Modal(modalEl);
     modal.show();
   }
+}
+
+/**
+ * Sets up the event creation form modal submission handler.
+ *
+ * @param {Function} [renderCallback] - Optional callback to refresh the events list
+ */
+function setupCreateEventForm(renderCallback) {
+  const form = document.getElementById('create-event-form');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+      showToast('You must be signed in to create and host university events.', 'warning');
+      return;
+    }
+
+    const title = document.getElementById('new-event-title').value.trim();
+    const category = document.getElementById('new-event-category').value;
+    const clubId = document.getElementById('new-event-club').value;
+    const seatsTotal = parseInt(document.getElementById('new-event-seats').value, 10) || 80;
+    const date = document.getElementById('new-event-date').value;
+    const time = document.getElementById('new-event-time').value.trim();
+    const location = document.getElementById('new-event-location').value.trim();
+    const banner = document.getElementById('new-event-banner').value.trim() || 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=80';
+    const description = document.getElementById('new-event-desc').value.trim();
+
+    const clubs = getStorage(STORAGE_KEYS.CLUBS, INITIAL_CLUBS);
+    const hostClub = clubs.find(c => c.id === clubId);
+    const clubName = hostClub ? hostClub.name : 'University Club';
+
+    const events = getStorage(STORAGE_KEYS.EVENTS, INITIAL_EVENTS);
+    const newEvent = {
+      id: 'evt_' + Date.now(),
+      title,
+      clubId,
+      clubName,
+      category,
+      date,
+      time,
+      location,
+      description,
+      banner,
+      seatsTotal,
+      seatsRegistered: 0,
+      registeredUserIds: [],
+      isRegistrationOpen: true
+    };
+
+    events.unshift(newEvent);
+    setStorage(STORAGE_KEYS.EVENTS, events);
+
+    // Broadcast event notification
+    const notifications = getStorage(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS);
+    notifications.unshift({
+      id: 'notif_' + Date.now(),
+      type: 'event',
+      title: 'New Event: ' + title,
+      message: `${clubName} published an event: "${title}" scheduled for ${date}. Registration is open!`,
+      timestamp: 'Just now',
+      read: false,
+      link: 'events.html'
+    });
+    setStorage(STORAGE_KEYS.NOTIFICATIONS, notifications);
+
+    showToast(`Campus event "${title}" published successfully!`, 'success');
+
+    form.reset();
+    const modalEl = document.getElementById('createEventModal');
+    if (modalEl && window.bootstrap) {
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
+    }
+
+    if (renderCallback) renderCallback();
+  });
 }

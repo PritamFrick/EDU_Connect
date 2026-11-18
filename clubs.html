@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Explore Clubs – EDUConnect</title>
   
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -12,64 +17,96 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-light">
+<body class="edu-portal-body">
 
   <!-- Top Navigation Bar (Dark Maroon Theme) -->
-  <nav class="navbar navbar-expand-lg edu-navbar">
-    <div class="container-fluid px-lg-4">
-      <a class="navbar-brand" href="index.html">
+  <nav class="navbar navbar-expand-lg edu-navbar sticky-top">
+    <div class="container-fluid px-3 px-lg-4">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
         <span class="fw-bold">EDU<span class="brand-gold">Connect</span></span>
       </a>
 
-      <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarClubs">
-        <i class="bi bi-list fs-2 text-white"></i>
+      <!-- Universal Search Bar (Desktop) -->
+      <form class="d-none d-lg-flex me-auto position-relative navbar-search-form ms-2 ms-lg-3" action="students.html">
+        <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-white-50">
+          <i class="bi bi-search"></i>
+        </span>
+        <input class="form-control form-control-sm ps-5 bg-white bg-opacity-10 border-secondary text-white placeholder-light" type="search" name="q" placeholder="Search students, clubs, events..." aria-label="Search" style="border-radius: 9999px;">
+      </form>
+
+      <button class="navbar-toggler text-white border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPortal" aria-controls="navbarPortal" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-1 text-white"></i>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarClubs">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
-          <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-house-door"></i> Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="students.html"><i class="bi bi-people"></i> Students</a></li>
-          <li class="nav-item"><a class="nav-link active brand-gold" href="clubs.html"><i class="bi bi-flag-fill"></i> Clubs</a></li>
-          <li class="nav-item"><a class="nav-link" href="events.html"><i class="bi bi-calendar-event"></i> Events</a></li>
-          <li class="nav-item"><a class="nav-link" href="notifications.html"><i class="bi bi-bell"></i> Notifications <span class="nav-badge-pill" id="nav-notif-badge" style="display: none;">0</span></a></li>
-        </ul>
+      <div class="collapse navbar-collapse" id="navbarPortal">
+        <!-- Universal Mobile Search in Drawer -->
+        <form class="d-flex d-lg-none my-3 position-relative" action="students.html">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-white-50">
+            <i class="bi bi-search"></i>
+          </span>
+          <input class="form-control form-control-sm ps-5 bg-white bg-opacity-10 border-secondary text-white placeholder-light w-100" type="search" name="q" placeholder="Search students, clubs, events..." aria-label="Search" style="border-radius: 9999px;">
+        </form>
 
-        <div class="d-flex align-items-center gap-2">
-          <!-- User Profile & Demo Switcher Dropdown -->
-          <div class="dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 p-1 text-light" href="#" role="button" data-bs-toggle="dropdown">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard.html"><i class="bi bi-house-door-fill"></i> Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="students.html"><i class="bi bi-people-fill"></i> Students</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active brand-gold" href="clubs.html"><i class="bi bi-flag-fill"></i> Clubs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="events.html"><i class="bi bi-calendar-event-fill"></i> Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="notifications.html">
+              <i class="bi bi-bell-fill"></i> Notifications
+              <span class="nav-badge-pill" id="nav-notif-badge" style="display: none;">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" style="color: #f87171 !important;" href="admin.html"><i class="bi bi-shield-lock-fill"></i> Admin</a>
+          </li>
+
+          <!-- User Profile & Account Dropdown -->
+          <li class="nav-item dropdown ms-lg-2">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 p-1 text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <div id="nav-user-chip" class="d-flex align-items-center gap-2">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="User" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
-                <span class="d-none d-lg-inline fw-semibold text-light">Farhan Ahmed</span>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" 
+                     alt="User" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                <span class="d-none d-xl-inline fw-semibold text-light">Farhan Ahmed</span>
+                <span class="badge bg-secondary text-white text-capitalize" style="font-size: 0.68rem;">Student</span>
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li><h6 class="dropdown-header">Switch Demo User</h6></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="student"><i class="bi bi-person text-primary me-2"></i>Student (Farhan)</a></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="club_rep"><i class="bi bi-flag text-info me-2"></i>Club Rep (Robotics)</a></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="admin"><i class="bi bi-shield-check text-danger me-2"></i>Admin (Prof. Rahman)</a></li>
+              <li><h6 class="dropdown-header">Student Account</h6></li>
+              <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person-circle me-2"></i>View My Profile</a></li>
+              <li><a class="dropdown-item" href="events.html"><i class="bi bi-calendar-event me-2"></i>Campus Events</a></li>
+              <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell me-2"></i>Notifications</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-danger" href="login.html" data-action="logout" onclick="handleLogout(event)"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
             </ul>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
 
   <!-- Page Header -->
-  <section class="bg-white border-bottom py-4">
-    <div class="container-fluid px-lg-4">
+  <section class="page-header-banner">
+    <div class="container-fluid px-3 px-lg-4">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
         <div>
-          <h2 class="fw-bold mb-1">University Clubs &amp; Societies</h2>
+          <h2 class="serif-heading mb-1">University Clubs &amp; Societies</h2>
           <p class="text-muted small mb-0">Discover student organizations, participate in extracurriculars, and apply for executive recruitments.</p>
         </div>
         <div class="d-flex align-items-center gap-2">
           <a href="register.html" class="btn btn-sm btn-edu-outline">
             <i class="bi bi-plus-circle me-1"></i> Propose a New Club
           </a>
-          <span class="badge bg-light text-dark border px-3 py-2 fw-semibold" id="clubs-count">Showing 5 clubs</span>
+          <span class="edu-count-badge" id="clubs-count">Showing 5 clubs</span>
         </div>
       </div>
     </div>
@@ -101,7 +138,7 @@
           </div>
 
           <div class="col-lg-3 col-md-12 d-flex align-items-end">
-            <button class="btn btn-outline-secondary w-100" id="club-clear-filters" style="margin-top: 1.5rem;">
+            <button class="btn btn-edu-outline w-100" id="club-clear-filters" style="margin-top: 1.5rem;">
               <i class="bi bi-x-circle me-1"></i> Clear Filters
             </button>
           </div>
@@ -125,18 +162,27 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="py-3 bg-white border-top text-center text-muted small mt-auto">
-    <div class="container">
-      &copy; 2026 EDUConnect – CSE 242 University Project Demo
+  <!-- Unified Portal Footer -->
+  <footer class="edu-portal-footer mt-auto">
+    <div class="container-fluid px-3 px-lg-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="brand-label">EDU<span class="brand-gold">Connect</span></span>
+        <span class="text-muted">&middot;</span>
+        <span>East Delta University</span>
+        <span class="text-muted">&middot;</span>
+        <span>&copy; 2026</span>
+      </div>
+      <div class="text-muted">
+        Together We Grow &middot; CSE 242 Web Development (Fall 2026)
+      </div>
     </div>
   </footer>
 
   <!-- Bootstrap 5 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Application Scripts -->
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/clubs.js"></script>
+  <script src="assets/js/data.js?v=20261118_v2"></script>
+  <script src="assets/js/app.js?v=20261118_v2"></script>
+  <script src="assets/js/clubs.js?v=20261118_v2"></script>
 </body>
 </html>

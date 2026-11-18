@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Computer Club – EDUConnect</title>
   
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -12,37 +17,74 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-white">
+<body class="edu-portal-body">
 
   <!-- Top Navigation Bar (Dark Maroon Theme) -->
-  <nav class="navbar navbar-expand-lg club-profile-nav py-2">
-    <div class="container">
+  <nav class="navbar navbar-expand-lg edu-navbar sticky-top">
+    <div class="container-fluid px-3 px-lg-4">
       <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
         <span class="fw-bold">EDU<span class="brand-gold">Connect</span></span>
       </a>
 
-      <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarClubProfile">
-        <i class="bi bi-list fs-2 text-white"></i>
+      <!-- Universal Search Bar (Desktop) -->
+      <form class="d-none d-lg-flex me-auto position-relative navbar-search-form ms-2 ms-lg-3" action="students.html">
+        <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-white-50">
+          <i class="bi bi-search"></i>
+        </span>
+        <input class="form-control form-control-sm ps-5 bg-white bg-opacity-10 border-secondary text-white placeholder-light" type="search" name="q" placeholder="Search students, clubs, events..." aria-label="Search" style="border-radius: 9999px;">
+      </form>
+
+      <button class="navbar-toggler text-white border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPortal" aria-controls="navbarPortal" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-1 text-white"></i>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarClubProfile">
-        <ul class="navbar-nav ms-auto align-items-center gap-3">
-          <li class="nav-item"><a class="nav-link" href="dashboard.html">Feed</a></li>
-          <li class="nav-item"><a class="nav-link active brand-gold" href="clubs.html">Clubs</a></li>
-          <li class="nav-item"><a class="nav-link" href="students.html">Students</a></li>
-          <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+      <div class="collapse navbar-collapse" id="navbarPortal">
+        <!-- Universal Mobile Search in Drawer -->
+        <form class="d-flex d-lg-none my-3 position-relative" action="students.html">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-white-50">
+            <i class="bi bi-search"></i>
+          </span>
+          <input class="form-control form-control-sm ps-5 bg-white bg-opacity-10 border-secondary text-white placeholder-light w-100" type="search" name="q" placeholder="Search students, clubs, events..." aria-label="Search" style="border-radius: 9999px;">
+        </form>
 
-          <!-- User Chip / Demo Switcher -->
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard.html"><i class="bi bi-house-door-fill"></i> Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="students.html"><i class="bi bi-people-fill"></i> Students</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active brand-gold" href="clubs.html"><i class="bi bi-flag-fill"></i> Clubs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="events.html"><i class="bi bi-calendar-event-fill"></i> Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="notifications.html">
+              <i class="bi bi-bell-fill"></i> Notifications
+              <span class="nav-badge-pill" id="nav-notif-badge" style="display: none;">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" style="color: #f87171 !important;" href="admin.html"><i class="bi bi-shield-lock-fill"></i> Admin</a>
+          </li>
+
+          <!-- User Profile & Account Dropdown -->
           <li class="nav-item dropdown ms-lg-2">
-            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 p-1 text-light" href="#" role="button" data-bs-toggle="dropdown">
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="User" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
-              <span class="d-none d-lg-inline small">Farhan Ahmed</span>
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 p-1 text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <div id="nav-user-chip" class="d-flex align-items-center gap-2">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" 
+                     alt="User" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                <span class="d-none d-xl-inline fw-semibold text-light">Farhan Ahmed</span>
+                <span class="badge bg-secondary text-white text-capitalize" style="font-size: 0.68rem;">Student</span>
+              </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li><h6 class="dropdown-header">Switch Demo User</h6></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="student"><i class="bi bi-person text-primary me-2"></i>Student (Farhan)</a></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="club_rep"><i class="bi bi-flag text-info me-2"></i>Club Rep (Robotics)</a></li>
-              <li><a class="dropdown-item" href="#" data-switch-role="admin"><i class="bi bi-shield-check text-danger me-2"></i>Admin (Prof. Rahman)</a></li>
+              <li><h6 class="dropdown-header">Student Account</h6></li>
+              <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person-circle me-2"></i>View My Profile</a></li>
+              <li><a class="dropdown-item" href="events.html"><i class="bi bi-calendar-event me-2"></i>Campus Events</a></li>
+              <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell me-2"></i>Notifications</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-danger" href="login.html" data-action="logout" onclick="handleLogout(event)"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
             </ul>
@@ -88,7 +130,7 @@
             <!-- Polaroid 1: Our Story (links to About) -->
             <a href="#about" class="featured-polaroid-card">
               <div class="polaroid-media-box maroon-bg" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80'); background-size: cover; background-position: center;">
-                <span class="badge bg-dark bg-opacity-75">[PHOTO]</span>
+                <span class="badge bg-dark bg-opacity-75"><i class="bi bi-image me-1"></i>Story</span>
               </div>
               <div class="polaroid-content">
                 <div class="polaroid-title">Our story</div>
@@ -99,7 +141,7 @@
             <!-- Polaroid 2: Hackathon 2026 (links to Events) -->
             <a href="#events" class="featured-polaroid-card">
               <div class="polaroid-media-box gold-bg" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=500&q=80'); background-size: cover; background-position: center;">
-                <span class="badge bg-dark bg-opacity-75">[PHOTO]</span>
+                <span class="badge bg-dark bg-opacity-75"><i class="bi bi-calendar-event me-1"></i>Event</span>
               </div>
               <div class="polaroid-content">
                 <div class="polaroid-title">Hackathon 2026</div>
@@ -110,7 +152,7 @@
             <!-- Polaroid 3: Join the team (links to Recruitments) -->
             <a href="#recruitments" class="featured-polaroid-card">
               <div class="polaroid-media-box maroon-bg" style="background-image: url('https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?auto=format&fit=crop&w=500&q=80'); background-size: cover; background-position: center;">
-                <span class="badge bg-dark bg-opacity-75">[PHOTO]</span>
+                <span class="badge bg-dark bg-opacity-75"><i class="bi bi-person-plus me-1"></i>Hiring</span>
               </div>
               <div class="polaroid-content">
                 <div class="polaroid-title">Join the team</div>
@@ -121,7 +163,7 @@
             <!-- Polaroid 4: National finalists (links to Achievements) -->
             <a href="#achievements" class="featured-polaroid-card">
               <div class="polaroid-media-box charcoal-bg" style="background-image: url('https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=500&q=80'); background-size: cover; background-position: center;">
-                <span class="badge bg-dark bg-opacity-75">[PHOTO]</span>
+                <span class="badge bg-dark bg-opacity-75"><i class="bi bi-trophy me-1"></i>Awards</span>
               </div>
               <div class="polaroid-content">
                 <div class="polaroid-title">National finalists</div>
@@ -182,14 +224,14 @@
     <div class="container py-2">
       <h2 class="club-section-heading text-dark">About &amp; goals</h2>
 
-      <div class="row g-5 align-items-start mb-5">
+      <div class="row g-4 g-lg-5 align-items-start mb-5">
         <!-- Left Statement -->
         <div class="col-lg-7">
-          <h4 class="fw-bold lh-base" style="font-family: var(--club-serif); color: #58101e; font-size: 1.65rem;">
-            [A short statement of what the club exists to do, in the club's own voice.]
+          <h4 class="fw-bold lh-base" style="font-family: var(--club-serif); color: var(--edu-maroon); font-size: clamp(1.3rem, 2.5vw, 1.65rem);">
+            Empowering student engineers and creative technologists to build transformative digital solutions, lead collaborative ventures, and pioneer innovation at East Delta University.
           </h4>
           <p class="text-secondary mt-3" style="line-height: 1.7; font-size: 1.05rem;">
-            We exist to ignite passion for technological innovation across the university campus. Through student-led collaborative workshops, high-stakes hackathons, and industry mentorship programs, we bridge academic classroom theories with real-world developer workflows.
+            We run student-led workshops, hackathons, and industry mentorship across campus. The aim is to use what we learn in class in real development work.
           </p>
         </div>
 
@@ -197,9 +239,9 @@
         <div class="col-lg-5">
           <div class="p-3 bg-light rounded-3 border-start border-4 border-warning">
             <ul class="club-goals-list mb-0">
-              <li><i class="bi bi-chevron-right text-warning me-2"></i>[Goal one]: Build production-ready web and AI software prototypes.</li>
-              <li><i class="bi bi-chevron-right text-warning me-2"></i>[Goal two]: Train freshers in competitive programming &amp; system architecture.</li>
-              <li><i class="bi bi-chevron-right text-warning me-2"></i>[Goal three]: Represent the university at national hackathons and robotics cups.</li>
+              <li><i class="bi bi-chevron-right text-warning me-2"></i><strong>Hands-on Engineering:</strong> Build production-ready web and AI software prototypes.</li>
+              <li><i class="bi bi-chevron-right text-warning me-2"></i><strong>Mentorship:</strong> Train freshers in competitive programming &amp; system architecture.</li>
+              <li><i class="bi bi-chevron-right text-warning me-2"></i><strong>Competition:</strong> Represent the university at national hackathons and robotics cups.</li>
             </ul>
           </div>
         </div>
@@ -209,17 +251,17 @@
       <div class="row g-4">
         <div class="col-md-4">
           <div class="club-photo-card maroon" style="background-image: linear-gradient(to top, rgba(82, 15, 27, 0.88), rgba(82, 15, 27, 0.4)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80'); background-size: cover; background-position: center;">
-            <span class="club-photo-label">[PHOTO] Team</span>
+            <span class="club-photo-label">Executive Leadership</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="club-photo-card maroon" style="background-image: linear-gradient(to top, rgba(82, 15, 27, 0.88), rgba(82, 15, 27, 0.4)), url('https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?auto=format&fit=crop&w=600&q=80'); background-size: cover; background-position: center;">
-            <span class="club-photo-label">[PHOTO] Workshop</span>
+            <span class="club-photo-label">Technical Workshop</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="club-photo-card gold" style="background-image: linear-gradient(to top, rgba(184, 134, 29, 0.88), rgba(184, 134, 29, 0.4)), url('https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=600&q=80'); background-size: cover; background-position: center;">
-            <span class="club-photo-label">[PHOTO] Meetup</span>
+            <span class="club-photo-label">Developer Meetup</span>
           </div>
         </div>
       </div>
@@ -240,9 +282,9 @@
             <div class="ticket-date-mon">Nov</div>
           </div>
           <div class="ticket-info-block">
-            <h4 class="ticket-title">[Event title] EDU TechFest 2026: National Hackathon</h4>
+            <h4 class="ticket-title">EDU TechFest 2026: National Hackathon</h4>
             <div class="ticket-meta">
-              <i class="bi bi-clock me-1"></i> 10:00 AM &bull; <i class="bi bi-geo-alt me-1"></i> Auditorium &bull; <span>[Short description]: 24-hour campus hackathon with prizes &amp; industry judges.</span>
+              <i class="bi bi-clock me-1"></i> 10:00 AM &bull; <i class="bi bi-geo-alt me-1"></i> Auditorium &bull; <span>24-hour campus hackathon with cash prizes &amp; industry judges.</span>
             </div>
           </div>
         </div>
@@ -261,9 +303,9 @@
             <div class="ticket-date-mon">Dec</div>
           </div>
           <div class="ticket-info-block">
-            <h4 class="ticket-title">[Event title] Building Intelligent Agents with Python</h4>
+            <h4 class="ticket-title">Building Intelligent Agents with Python</h4>
             <div class="ticket-meta">
-              <i class="bi bi-clock me-1"></i> 2:00 PM &bull; <i class="bi bi-geo-alt me-1"></i> Lab 3 &bull; <span>[Short description]: Hands-on AI coding session and live project deployments.</span>
+              <i class="bi bi-clock me-1"></i> 2:00 PM &bull; <i class="bi bi-geo-alt me-1"></i> Lab 3 &bull; <span>Hands-on AI coding session and live project deployments.</span>
             </div>
           </div>
         </div>
@@ -278,17 +320,17 @@
       <div class="row g-4 mt-3">
         <div class="col-md-4">
           <div class="club-photo-card maroon" style="background-image: linear-gradient(to top, rgba(99, 20, 34, 0.85), rgba(99, 20, 34, 0.4)), url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Event photo</span>
+            <span class="club-photo-label">TechFest Opening Ceremony</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="club-photo-card gold" style="background-image: linear-gradient(to top, rgba(184, 134, 29, 0.85), rgba(184, 134, 29, 0.4)), url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Event photo</span>
+            <span class="club-photo-label">Competitive Coding Sprint</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="club-photo-card charcoal" style="background-image: linear-gradient(to top, rgba(43, 34, 39, 0.85), rgba(43, 34, 39, 0.4)), url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Event photo</span>
+            <span class="club-photo-label">Project Showcase &amp; Presentation</span>
           </div>
         </div>
       </div>
@@ -307,9 +349,9 @@
         <div class="col-md-6">
           <div class="recruitment-card">
             <span class="recruitment-close-pill">Closes 30 Nov</span>
-            <h4 class="recruitment-role-title">[Role title] Executive Web Developer</h4>
+            <h4 class="recruitment-role-title">Executive Web Developer</h4>
             <p class="recruitment-desc">
-              [Skills needed: HTML5, CSS3, JavaScript, PHP &bull; time commitment: 5 hrs/week &bull; Build and maintain the university club portal and hackathon platforms.]
+              Skills needed: HTML5, CSS3, JavaScript, PHP &bull; 5 hrs/week &bull; Build and maintain the university club portal and hackathon platforms.
             </p>
             <button class="btn-maroon-pill align-self-start" data-bs-toggle="modal" data-bs-target="#applyModal" onclick="setApplyRole('Executive Web Developer')">
               Apply
@@ -321,9 +363,9 @@
         <div class="col-md-6">
           <div class="recruitment-card">
             <span class="recruitment-close-pill">Closes 05 Dec</span>
-            <h4 class="recruitment-role-title">[Role title] Creative Design &amp; Media Associate</h4>
+            <h4 class="recruitment-role-title">Creative Design &amp; Media Associate</h4>
             <p class="recruitment-desc">
-              [Skills needed: UI/UX, Figma, Poster Design &bull; time commitment: 4 hrs/week &bull; Produce digital posters, banners, and video recaps for campus events.]
+              Skills needed: UI/UX, Figma, Poster Design &bull; 4 hrs/week &bull; Produce digital posters, banners, and video recaps for campus events.
             </p>
             <button class="btn-maroon-pill align-self-start" data-bs-toggle="modal" data-bs-target="#applyModal" onclick="setApplyRole('Creative Design & Media Associate')">
               Apply
@@ -337,17 +379,17 @@
       <div class="row g-4">
         <div class="col-md-4">
           <div class="club-photo-card maroon" style="background-image: linear-gradient(to top, rgba(99, 20, 34, 0.85), rgba(99, 20, 34, 0.4)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Team photo</span>
+            <span class="club-photo-label">Executive Committee 2026</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="club-photo-card maroon" style="background-image: linear-gradient(to top, rgba(99, 20, 34, 0.85), rgba(99, 20, 34, 0.4)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Team photo</span>
+            <span class="club-photo-label">Core Organizing Team</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="club-photo-card gold" style="background-image: linear-gradient(to top, rgba(184, 134, 29, 0.85), rgba(184, 134, 29, 0.4)), url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Team photo</span>
+            <span class="club-photo-label">General Member Orientation</span>
           </div>
         </div>
       </div>
@@ -364,20 +406,20 @@
       <div class="row g-4 mb-4">
         <div class="col-md-4">
           <div class="achievement-stat-num">1st</div>
-          <div class="achievement-stat-title">[Inter-University Contest]</div>
-          <div class="achievement-stat-sub">2025 &bull; [National Hackathon Champions]</div>
+          <div class="achievement-stat-title">Inter-University Contest</div>
+          <div class="achievement-stat-sub">2025 &bull; National Hackathon Champions</div>
         </div>
 
         <div class="col-md-4">
           <div class="achievement-stat-num">5&times;</div>
-          <div class="achievement-stat-title">[Best Club of the Year]</div>
-          <div class="achievement-stat-sub">[Awarded by University Student Affairs]</div>
+          <div class="achievement-stat-title">Best Club of the Year</div>
+          <div class="achievement-stat-sub">Awarded by University Student Affairs</div>
         </div>
 
         <div class="col-md-4">
           <div class="achievement-stat-num">500+</div>
-          <div class="achievement-stat-title">[Students trained]</div>
-          <div class="achievement-stat-sub">[Workshops and developer bootcamps since 2019]</div>
+          <div class="achievement-stat-title">Students Trained</div>
+          <div class="achievement-stat-sub">Workshops &amp; developer bootcamps since 2019</div>
         </div>
       </div>
 
@@ -385,17 +427,17 @@
       <div class="row g-4">
         <div class="col-md-4">
           <div class="club-photo-card maroon" style="background-image: linear-gradient(to top, rgba(82, 15, 27, 0.88), rgba(82, 15, 27, 0.4)), url('https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Trophy photo</span>
+            <span class="club-photo-label">National Hackathon Trophy 2025</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="club-photo-card maroon" style="background-image: linear-gradient(to top, rgba(82, 15, 27, 0.88), rgba(82, 15, 27, 0.4)), url('https://images.unsplash.com/photo-1578269174936-2709b6aeb913?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Award photo</span>
+            <span class="club-photo-label">Excellence in Leadership Award</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="club-photo-card charcoal" style="background-image: linear-gradient(to top, rgba(43, 34, 39, 0.88), rgba(43, 34, 39, 0.4)), url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80'); background-size: cover;">
-            <span class="club-photo-label">[PHOTO] Team photo</span>
+            <span class="club-photo-label">Champion Delegation Team</span>
           </div>
         </div>
       </div>
@@ -403,10 +445,11 @@
     </div>
   </section>
 
-  <!-- Minimalist Footer -->
-  <footer class="club-minimal-footer">
-    <div class="container">
-      EDUConnect &bull; Club profile
+  <!-- Standard University Portal Footer -->
+  <footer class="edu-portal-footer mt-auto">
+    <div class="container-fluid px-3 px-lg-4 text-center">
+      <p class="mb-1 fw-semibold">EDUConnect &bull; East Delta University</p>
+      <p class="small text-muted mb-0">Empowering student engagement, academic excellence, and campus community &copy; 2026</p>
     </div>
   </footer>
 
@@ -414,7 +457,7 @@
   <div class="modal fade" id="applyModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header" style="background-color: #3b0e17; color: white;">
+        <div class="modal-header bg-maroon text-white">
           <h5 class="modal-title fw-bold" id="applyModalTitle">Apply for Recruitment</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -448,38 +491,50 @@
   <script src="assets/js/data.js"></script>
   <script src="assets/js/app.js"></script>
 
-  <!-- Interactive script for this exact design layout -->
+  <!-- Interactive script for Club Profile page -->
   <script>
+    /**
+     * EDUConnect - Club Profile Interactive Controller
+     * Handles interest tracking, recruitment application submission,
+     * and event RSVP notifications for this club.
+     */
+
     let interestedCount = 128;
     let isInterested = false;
+    let activeClubId = 'club_01';
 
-    // Load interested state from LocalStorage & sync dynamic club info
+    // Initialize Club Profile state once DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const clubId = urlParams.get('id') || 'club_01';
+      activeClubId = urlParams.get('id') || 'club_01';
       const clubs = getStorage(STORAGE_KEYS.CLUBS, INITIAL_CLUBS);
-      const club = clubs.find(c => c.id === clubId) || clubs[0];
+      const club = clubs.find(c => c.id === activeClubId) || clubs[0];
 
+      // Dynamically populate club header if non-default club is selected
       if (club && club.id !== 'club_01') {
         const titleEl = document.getElementById('club-hero-name');
         if (titleEl) titleEl.textContent = club.name.replace(/^EDU\s+/, '');
         
         const deptEl = document.getElementById('club-hero-dept');
-        if (deptEl) deptEl.textContent = club.advisor ? club.advisor.split(',').slice(1).join(',').trim() || club.category : club.category;
+        if (deptEl) {
+          deptEl.textContent = club.advisor ? club.advisor.split(',').slice(1).join(',').trim() || club.category : club.category;
+        }
 
         document.title = `${club.name} – EDUConnect`;
 
         const iconEl = document.getElementById('club-emblem-icon');
         if (iconEl) {
-          if (club.name.toLowerCase().includes('business')) iconEl.className = 'bi bi-briefcase club-emblem-icon';
-          else if (club.name.toLowerCase().includes('debate')) iconEl.className = 'bi bi-chat-quote club-emblem-icon';
-          else if (club.name.toLowerCase().includes('robotics')) iconEl.className = 'bi bi-robot club-emblem-icon';
-          else if (club.name.toLowerCase().includes('cultural')) iconEl.className = 'bi bi-music-note-beamed club-emblem-icon';
-          else if (club.name.toLowerCase().includes('coding') || club.name.toLowerCase().includes('programming')) iconEl.className = 'bi bi-terminal club-emblem-icon';
+          const lowerName = club.name.toLowerCase();
+          if (lowerName.includes('business')) iconEl.className = 'bi bi-briefcase club-emblem-icon';
+          else if (lowerName.includes('debate')) iconEl.className = 'bi bi-chat-quote club-emblem-icon';
+          else if (lowerName.includes('robotics')) iconEl.className = 'bi bi-robot club-emblem-icon';
+          else if (lowerName.includes('cultural')) iconEl.className = 'bi bi-music-note-beamed club-emblem-icon';
+          else if (lowerName.includes('coding') || lowerName.includes('programming')) iconEl.className = 'bi bi-terminal club-emblem-icon';
         }
       }
 
-      const storageKey = `club_${clubId}_interested`;
+      // Restore saved interested state from LocalStorage
+      const storageKey = `club_${activeClubId}_interested`;
       const savedState = localStorage.getItem(storageKey);
       if (savedState === 'true') {
         isInterested = true;
@@ -487,28 +542,35 @@
         updateInterestedUI();
       }
 
-      // Smooth scroll for subnav pills
+      // Smooth scroll and active state for subnav pills
       document.querySelectorAll('.subnav-pill').forEach(pill => {
-        pill.addEventListener('click', function(e) {
+        pill.addEventListener('click', function() {
           document.querySelectorAll('.subnav-pill').forEach(p => p.classList.remove('active'));
           this.classList.add('active');
         });
       });
     });
 
+    /**
+     * Toggles the user's expression of interest in this club.
+     */
     function toggleClubInterested() {
       isInterested = !isInterested;
       interestedCount += isInterested ? 1 : -1;
-      localStorage.setItem('club_computer_interested', isInterested ? 'true' : 'false');
+      const storageKey = `club_${activeClubId}_interested`;
+      localStorage.setItem(storageKey, isInterested ? 'true' : 'false');
       updateInterestedUI();
 
       if (isInterested) {
-        showToast('You marked interest in Computer Club! You will receive future notices.', 'success');
+        showToast('You marked interest in this club! You will receive future notices.', 'success');
       } else {
         showToast('Removed interest marker.', 'info');
       }
     }
 
+    /**
+     * Updates the Interested button counter and icon in the hero banner.
+     */
     function updateInterestedUI() {
       const countEl = document.getElementById('club-interested-count');
       const btn = document.getElementById('btn-club-interested');
@@ -520,16 +582,21 @@
       }
     }
 
+    /**
+     * Simulates rapid registration for a club-hosted event directly from the profile page.
+     *
+     * @param {string} eventName - Title of the target event.
+     */
     function registerClubEventPrompt(eventName) {
       showToast(`Successfully registered for "${eventName}"! Confirmation saved.`, 'success');
       
-      // Save notification in localstorage
+      // Save confirmation notification into LocalStorage
       const notifs = getStorage(STORAGE_KEYS.NOTIFICATIONS, []);
       notifs.unshift({
         id: 'notif_' + Date.now(),
         type: 'event',
         title: 'Event Registration Confirmed',
-        message: `You are registered for ${eventName} organized by Computer Club.`,
+        message: `You are registered for ${eventName} organized by this club.`,
         timestamp: 'Just now',
         read: false,
         link: 'club-profile.html'
@@ -538,17 +605,28 @@
       syncNavbarUI();
     }
 
+    /**
+     * Populates the target recruitment role input in the application modal.
+     *
+     * @param {string} role - Position title.
+     */
     function setApplyRole(role) {
       const input = document.getElementById('modal-role-input');
       if (input) input.value = role;
     }
 
+    /**
+     * Submits a student recruitment application and dismisses the modal.
+     *
+     * @param {Event} e - Form submission event.
+     */
     function submitRecruitmentApplication(e) {
       e.preventDefault();
-      const role = document.getElementById('modal-role-input').value;
+      const roleInput = document.getElementById('modal-role-input');
+      const role = roleInput ? roleInput.value : 'General Member';
       showToast(`Application submitted for "${role}"! The executive board will review it.`, 'success');
 
-      // Close modal
+      // Dismiss modal dialog
       const modalEl = document.getElementById('applyModal');
       if (modalEl && window.bootstrap) {
         const modal = bootstrap.Modal.getInstance(modalEl);

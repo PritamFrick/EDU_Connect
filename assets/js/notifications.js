@@ -1,8 +1,17 @@
 /**
  * EDUConnect - Notifications Center Script (notifications.js)
  * Created for CSE 242 University Project
- * Handles Notification rendering, category filters, and mark-as-read updates in LocalStorage.
+ *
+ * Powers the Notification Center page:
+ * - Real-time filtering by category (All, Unread, Events, Clubs, Connections)
+ * - Dynamic unread counter badges
+ * - Single notification "Mark as read" and batch "Mark all as read"
+ * - Automatic synchronization with global navbar notification badge
  */
+
+/* ==========================================================================
+   1. Lifecycle & Page Initialization
+   ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('notifications-list')) {
@@ -10,6 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+/* ==========================================================================
+   2. Notifications Center Logic
+   ========================================================================== */
+
+/**
+ * Initializes the Notifications Center:
+ * - Sets up category filtering pills.
+ * - Binds the "Mark all as read" button.
+ * - Renders notifications list with custom icon styles per notification type.
+ */
 function initNotificationsPage() {
   const listContainer = document.getElementById('notifications-list');
   const emptyState = document.getElementById('notifications-empty-state');
@@ -17,6 +36,11 @@ function initNotificationsPage() {
   const filterPills = document.querySelectorAll('[data-notif-filter]');
   let currentFilter = 'all';
 
+  if (!listContainer) return;
+
+  /**
+   * Filters and renders notifications based on selected category.
+   */
   function renderList() {
     const notifs = getStorage(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS);
 
@@ -37,12 +61,13 @@ function initNotificationsPage() {
 
     if (filtered.length === 0) {
       listContainer.innerHTML = '';
-      emptyState.classList.remove('d-none');
+      if (emptyState) emptyState.classList.remove('d-none');
       return;
     }
 
-    emptyState.classList.add('d-none');
+    if (emptyState) emptyState.classList.add('d-none');
 
+    // Visual styles for notification categories
     const icons = {
       event: { icon: 'bi-calendar-check-fill', bg: 'bg-primary bg-opacity-10 text-primary' },
       club: { icon: 'bi-flag-fill', bg: 'bg-info bg-opacity-10 text-info' },
@@ -51,6 +76,9 @@ function initNotificationsPage() {
 
     listContainer.innerHTML = filtered.map(item => {
       const iconMeta = icons[item.type] || icons.event;
+      const safeTitle = escapeHtml(item.title);
+      const safeMessage = escapeHtml(item.message);
+      const safeTimestamp = escapeHtml(item.timestamp);
 
       return `
         <div class="notification-item ${item.read ? '' : 'unread'}" id="notif-item-${item.id}">
@@ -60,10 +88,10 @@ function initNotificationsPage() {
 
           <div class="flex-grow-1">
             <div class="d-flex align-items-center justify-content-between mb-1">
-              <h6 class="fw-bold mb-0 text-dark small">${item.title}</h6>
-              <span class="text-muted" style="font-size: 0.72rem;">${item.timestamp}</span>
+              <h6 class="fw-bold mb-0 text-dark small">${safeTitle}</h6>
+              <span class="text-muted" style="font-size: 0.72rem;">${safeTimestamp}</span>
             </div>
-            <p class="small text-secondary mb-2">${item.message}</p>
+            <p class="small text-secondary mb-2">${safeMessage}</p>
             <div class="d-flex align-items-center gap-2">
               ${item.link ? `<a href="${item.link}" class="btn btn-sm btn-link p-0 text-decoration-none small text-primary fw-semibold">View Details &rarr;</a>` : ''}
               ${!item.read ? `
@@ -78,22 +106,22 @@ function initNotificationsPage() {
     }).join('');
   }
 
-  // Filter click handlers
+  // Filter pills click handling
   filterPills.forEach(pill => {
     pill.addEventListener('click', (e) => {
       e.preventDefault();
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-      currentFilter = pill.getAttribute('data-notif-filter');
+      currentFilter = pill.getAttribute('data-notif-filter') || 'all';
       renderList();
     });
   });
 
-  // Mark all as read handler
+  // Mark all notifications as read
   if (markAllBtn) {
     markAllBtn.addEventListener('click', () => {
       const notifs = getStorage(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS);
-      notifs.forEach(n => n.read = true);
+      notifs.forEach(n => { n.read = true; });
       setStorage(STORAGE_KEYS.NOTIFICATIONS, notifs);
       showToast('All notifications marked as read.', 'success');
       syncNavbarUI();
@@ -101,11 +129,19 @@ function initNotificationsPage() {
     });
   }
 
+  // Initial render
   renderList();
 }
 
+/* ==========================================================================
+   3. Single Notification Read Handler
+   ========================================================================== */
+
 /**
- * Mark a single notification as read
+ * Marks an individual notification item as read in LocalStorage
+ * and updates both the active view and top navigation badge.
+ *
+ * @param {string} notifId - Unique ID of the notification.
  */
 function markSingleNotifRead(notifId) {
   const notifs = getStorage(STORAGE_KEYS.NOTIFICATIONS, INITIAL_NOTIFICATIONS);

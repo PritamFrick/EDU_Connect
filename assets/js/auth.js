@@ -1,29 +1,26 @@
 /**
  * EDUConnect - Authentication & Registration Handler (auth.js)
- * Created for CSE 242 University Project
- * Handles Demo Logins, Account Creation, Form Validation, and Session Management.
+ * Created for CSE 242 University Project (Fall 2026)
+ *
+ * Manages authentic university login authentication, student registration,
+ * club charter applications, client-side input validations, and active session routing.
  */
 
+/* ==========================================================================
+   1. Initialization & Event Binding
+   ========================================================================== */
+
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. LOGIN PAGE LOGIC
+  // 1. Login Page Setup
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
-    // Quick Demo Preset Autofill Buttons
-    document.querySelectorAll('[data-demo-login]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const role = btn.getAttribute('data-demo-login');
-        fillDemoCredentials(role);
-      });
-    });
-
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       handleLoginSubmit();
     });
   }
 
-  // 2. REGISTRATION PAGE LOGIC
+  // 2. Student Registration Form Setup
   const studentRegForm = document.getElementById('student-reg-form');
   if (studentRegForm) {
     studentRegForm.addEventListener('submit', (e) => {
@@ -32,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 3. Club Charter Application Form Setup
   const clubRegForm = document.getElementById('club-reg-form');
   if (clubRegForm) {
     clubRegForm.addEventListener('submit', (e) => {
@@ -40,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. LOGOUT BUTTONS
+  // 4. Logout Action Triggers
   document.querySelectorAll('[data-action="logout"]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -49,147 +47,196 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/* ==========================================================================
+   2. Authentication Handlers
+   ========================================================================== */
+
 /**
- * Fills login form inputs with selected demo credentials
+ * Validates login form inputs, authenticates against registered university accounts,
+ * verifies passwords, and redirects to the target portal or redirect parameter.
  */
-function fillDemoCredentials(role) {
+function handleLoginSubmit() {
   const emailInput = document.getElementById('login-email');
   const passwordInput = document.getElementById('login-password');
   const roleSelect = document.getElementById('login-role');
+  const alertBox = document.getElementById('login-alert');
 
   if (!emailInput || !passwordInput) return;
 
-  if (role === 'student') {
-    emailInput.value = 'farhan.ahmed@student.edu';
-    passwordInput.value = 'student123';
-    if (roleSelect) roleSelect.value = 'student';
-    showToast('Autofilled Student Demo Credentials (Farhan Ahmed)', 'info');
-  } else if (role === 'club_rep') {
-    emailInput.value = 'robotics.lead@student.edu';
-    passwordInput.value = 'clubrep123';
-    if (roleSelect) roleSelect.value = 'club_rep';
-    showToast('Autofilled Club Representative Demo Credentials', 'info');
-  } else if (role === 'admin') {
-    emailInput.value = 'admin.connect@edu.ac.bd';
-    passwordInput.value = 'admin123';
-    if (roleSelect) roleSelect.value = 'admin';
-    showToast('Autofilled Administrator Demo Credentials', 'info');
-  }
-}
+  const email = emailInput.value.trim().toLowerCase();
+  const password = passwordInput.value;
+  const selectedRole = roleSelect ? roleSelect.value : 'student';
 
-/**
- * Validates and logs in the user
- */
-function handleLoginSubmit() {
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const role = document.getElementById('login-role')?.value || 'student';
-  const alertBox = document.getElementById('login-alert');
-
+  // 1. Validate presence
   if (!email || !password) {
     showAlert(alertBox, 'Please enter both your university email and password.', 'danger');
     return;
   }
 
-  // Basic university email format check
+  // 2. Validate email format
   if (!email.includes('@')) {
     showAlert(alertBox, 'Please enter a valid educational email address.', 'danger');
     return;
   }
 
-  // Check demo credentials
-  if (email === DEMO_ACCOUNTS.admin.email) {
-    setStorage(STORAGE_KEYS.CURRENT_USER, DEMO_ACCOUNTS.admin);
-    showToast('Logged in as Administrator!', 'success');
-    setTimeout(() => window.location.href = 'admin.html', 700);
-    return;
+  let authenticatedUser = null;
+
+  // Case 1: Faculty / Administrator Authentication
+  const adminEmails = ['saraf.anika@faculty.edu', 'admin@edu.ac.bd', 'admin.connect@edu.ac.bd'];
+  if (adminEmails.includes(email) || selectedRole === 'admin') {
+    if (adminEmails.includes(email)) {
+      if (password !== (window.FACULTY_ADMIN ? window.FACULTY_ADMIN.password : 'admin123')) {
+        showAlert(alertBox, 'Incorrect password for Faculty Administrator account.', 'danger');
+        return;
+      }
+      authenticatedUser = window.FACULTY_ADMIN || {
+        id: 'admin_01',
+        studentId: 'FACULTY-CSE-242',
+        name: 'Saraf Anika (Asst. Professor & Faculty Admin)',
+        email: email,
+        role: 'admin',
+        department: 'CSE, SoSET, East Delta University',
+        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+        status: 'Verified',
+        followingClubs: ['club_01', 'club_02', 'club_03', 'club_04', 'club_05', 'club_06'],
+        connectedStudents: []
+      };
+    } else {
+      showAlert(alertBox, 'Unrecognized administrator email address. Please verify your faculty credentials.', 'danger');
+      return;
+    }
+  }
+  // Case 2: Club Representative Authentication
+  else if (email === 'robotics.lead@student.edu' || selectedRole === 'club_rep') {
+    if (email === 'robotics.lead@student.edu') {
+      if (password !== 'clubrep123') {
+        showAlert(alertBox, 'Incorrect password for Club Representative account.', 'danger');
+        return;
+      }
+      authenticatedUser = {
+        id: 'club_rep_01',
+        studentId: '243007712',
+        name: 'Pritam Barua (EDURC President)',
+        email: 'robotics.lead@student.edu',
+        role: 'club_rep',
+        clubId: 'club_02',
+        department: 'Computer Science & Engineering',
+        avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
+        status: 'Verified',
+        followingClubs: ['club_02'],
+        connectedStudents: ['std_01', 'std_03']
+      };
+    } else {
+      showAlert(alertBox, 'Unrecognized club representative email address.', 'danger');
+      return;
+    }
+  }
+  // Case 3: Registered Students in LocalStorage / Seed
+  else {
+    const students = getStorage(STORAGE_KEYS.STUDENTS, INITIAL_STUDENTS);
+    const foundStudent = students.find(s => s.email.toLowerCase() === email);
+
+    if (foundStudent) {
+      const validPassword = foundStudent.password || 'student123';
+      if (password !== validPassword) {
+        showAlert(alertBox, `Incorrect password for ${escapeHtml(foundStudent.name)}. Please try again.`, 'danger');
+        return;
+      }
+      authenticatedUser = foundStudent;
+    } else {
+      showAlert(alertBox, `No registered student account found for "${escapeHtml(email)}". Please verify your university email or create an account.`, 'danger');
+      return;
+    }
   }
 
-  if (email === DEMO_ACCOUNTS.club_rep.email) {
-    setStorage(STORAGE_KEYS.CURRENT_USER, DEMO_ACCOUNTS.club_rep);
-    showToast('Logged in as Club Representative!', 'success');
-    setTimeout(() => window.location.href = 'dashboard.html', 700);
-    return;
-  }
+  // 3. Save session
+  setStorage(STORAGE_KEYS.CURRENT_USER, authenticatedUser);
+  showToast(`Welcome back, ${escapeHtml(authenticatedUser.name)}!`, 'success');
 
-  // Search existing registered students in LocalStorage
-  const students = getStorage(STORAGE_KEYS.STUDENTS, INITIAL_STUDENTS);
-  const foundStudent = students.find(s => s.email.toLowerCase() === email.toLowerCase());
+  // 4. Handle redirect target if redirected from a protected page
+  const params = new URLSearchParams(window.location.search);
+  const redirectTarget = params.get('redirect');
 
-  if (foundStudent) {
-    setStorage(STORAGE_KEYS.CURRENT_USER, foundStudent);
-    showToast(`Welcome back, ${foundStudent.name}!`, 'success');
-    setTimeout(() => window.location.href = 'dashboard.html', 700);
-    return;
-  }
-
-  // Demo fallback for test users
-  const demoUser = {
-    id: 'std_demo_' + Date.now(),
-    studentId: '2024-1-00-' + Math.floor(100 + Math.random() * 900),
-    name: email.split('@')[0].replace('.', ' ').toUpperCase(),
-    email: email,
-    role: role,
-    department: 'Computer Science & Engineering',
-    semester: '1st Semester',
-    cgpa: 'N/A',
-    bio: 'Freshly registered university student on EDUConnect.',
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
-    skills: ['General Computing', 'Communication'],
-    interests: ['Networking', 'Extracurricular Activities'],
-    achievements: [],
-    clubs: [],
-    status: 'Pending Verification',
-    connectionsCount: 0,
-    followingClubs: [],
-    connectedStudents: []
-  };
-
-  setStorage(STORAGE_KEYS.CURRENT_USER, demoUser);
-  showToast(`Welcome to EDUConnect, ${demoUser.name}!`, 'success');
-  setTimeout(() => window.location.href = 'dashboard.html', 700);
+  setTimeout(() => {
+    if (redirectTarget && !redirectTarget.includes('login.html')) {
+      if (redirectTarget === 'admin.html' && authenticatedUser.role !== 'admin') {
+        window.location.href = 'dashboard.html';
+      } else {
+        window.location.href = redirectTarget;
+      }
+    } else if (authenticatedUser.role === 'admin') {
+      window.location.href = 'admin.html';
+    } else {
+      window.location.href = 'dashboard.html';
+    }
+  }, 600);
 }
 
+/* ==========================================================================
+   3. Registration Handlers
+   ========================================================================== */
+
 /**
- * Handles new student registration
+ * Validates and processes a new student account registration submission:
+ * - Checks password length and confirmation match.
+ * - Prevents duplicate Student IDs or emails.
+ * - Enqueues a verification request in the Admin dashboard queue.
+ * - Sets the new user as active session.
  */
 function handleStudentRegistration() {
-  const studentId = document.getElementById('reg-student-id').value.trim();
-  const fullName = document.getElementById('reg-name').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const department = document.getElementById('reg-department').value;
-  const password = document.getElementById('reg-password').value;
-  const confirmPassword = document.getElementById('reg-confirm-password').value;
+  const studentIdEl = document.getElementById('reg-student-id');
+  const nameEl = document.getElementById('reg-name');
+  const emailEl = document.getElementById('reg-email');
+  const deptEl = document.getElementById('reg-department');
+  const passwordEl = document.getElementById('reg-password');
+  const confirmPasswordEl = document.getElementById('reg-confirm-password');
   const alertBox = document.getElementById('reg-alert');
 
-  // Validations
+  if (!studentIdEl || !nameEl || !emailEl || !deptEl || !passwordEl || !confirmPasswordEl) return;
+
+  const studentId = studentIdEl.value.trim();
+  const fullName = nameEl.value.trim();
+  const email = emailEl.value.trim();
+  const department = deptEl.value;
+  const password = passwordEl.value;
+  const confirmPassword = confirmPasswordEl.value;
+
+  // 1. Required fields check
   if (!studentId || !fullName || !email || !department || !password) {
     showAlert(alertBox, 'Please complete all required fields.', 'danger');
     return;
   }
 
+  // 2. Minimum password length check
   if (password.length < 6) {
     showAlert(alertBox, 'Password must be at least 6 characters long.', 'danger');
     return;
   }
 
+  // 3. Password confirmation check
   if (password !== confirmPassword) {
-    showAlert(alertBox, 'Passwords do not match.', 'danger');
+    showAlert(alertBox, 'Passwords do not match. Please re-enter your password.', 'danger');
     return;
   }
 
+  // 4. Duplicate identity check
   const students = getStorage(STORAGE_KEYS.STUDENTS, INITIAL_STUDENTS);
-  if (students.some(s => s.email.toLowerCase() === email.toLowerCase() || s.studentId === studentId)) {
+  const isDuplicate = students.some(s => 
+    s.email.toLowerCase() === email.toLowerCase() || s.studentId === studentId
+  );
+
+  if (isDuplicate) {
     showAlert(alertBox, 'A student with this Student ID or Email is already registered.', 'danger');
     return;
   }
 
+  // 5. Construct new student model
   const newStudent = {
     id: 'std_' + Date.now(),
     studentId: studentId,
     name: fullName,
     email: email,
+    password: password,
     role: 'student',
     department: department,
     semester: '1st Semester',
@@ -207,11 +254,11 @@ function handleStudentRegistration() {
     connectedStudents: []
   };
 
-  // Add to students list
+  // 6. Save to Students collection
   students.push(newStudent);
   setStorage(STORAGE_KEYS.STUDENTS, students);
 
-  // Add pending verification record for Admin dashboard
+  // 7. Enqueue verification request for the Admin Moderation Dashboard
   const verifications = getStorage(STORAGE_KEYS.VERIFICATIONS, INITIAL_VERIFICATIONS);
   verifications.push({
     id: 'verif_' + Date.now(),
@@ -226,38 +273,51 @@ function handleStudentRegistration() {
   });
   setStorage(STORAGE_KEYS.VERIFICATIONS, verifications);
 
-  // Set logged in session
+  // 8. Establish active session
   setStorage(STORAGE_KEYS.CURRENT_USER, newStudent);
 
-  // Show status modal or redirect
+  // 9. Display success feedback & route
   showToast('Registration successful! Profile submitted for admin verification.', 'success');
   const successModal = document.getElementById('regSuccessModal');
   if (successModal && window.bootstrap) {
     const modal = new bootstrap.Modal(successModal);
     modal.show();
   } else {
-    setTimeout(() => window.location.href = 'dashboard.html', 1200);
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 1200);
   }
 }
 
 /**
- * Handles Club charter / application submission
+ * Validates and processes a new student club charter application,
+ * submitting the proposal to the Student Affairs Council review queue.
  */
 function handleClubRegistration() {
-  const clubName = document.getElementById('club-name').value.trim();
-  const category = document.getElementById('club-category').value;
-  const leadName = document.getElementById('club-lead-name').value.trim();
-  const leadEmail = document.getElementById('club-lead-email').value.trim();
-  const advisor = document.getElementById('club-advisor').value.trim();
-  const description = document.getElementById('club-description').value.trim();
+  const clubNameEl = document.getElementById('club-name');
+  const categoryEl = document.getElementById('club-category');
+  const leadNameEl = document.getElementById('club-lead-name');
+  const leadEmailEl = document.getElementById('club-lead-email');
+  const advisorEl = document.getElementById('club-advisor');
+  const descriptionEl = document.getElementById('club-description');
   const alertBox = document.getElementById('club-reg-alert');
 
+  if (!clubNameEl || !categoryEl || !leadNameEl || !leadEmailEl || !advisorEl) return;
+
+  const clubName = clubNameEl.value.trim();
+  const category = categoryEl.value;
+  const leadName = leadNameEl.value.trim();
+  const leadEmail = leadEmailEl.value.trim();
+  const advisor = advisorEl.value.trim();
+  const description = descriptionEl ? descriptionEl.value.trim() : '';
+
+  // Required fields check
   if (!clubName || !category || !leadName || !leadEmail || !advisor) {
     showAlert(alertBox, 'Please complete all required fields for club charter registration.', 'danger');
     return;
   }
 
-  // Add to Admin Verifications queue
+  // Enqueue new club charter verification in Admin dashboard
   const verifications = getStorage(STORAGE_KEYS.VERIFICATIONS, INITIAL_VERIFICATIONS);
   verifications.push({
     id: 'verif_' + Date.now(),
@@ -272,27 +332,42 @@ function handleClubRegistration() {
   });
   setStorage(STORAGE_KEYS.VERIFICATIONS, verifications);
 
-  showAlert(alertBox, `Success! Your club charter application for "${clubName}" has been submitted to the Student Affairs Council for verification.`, 'success');
+  const safeClubName = escapeHtml(clubName);
+  showAlert(
+    alertBox,
+    `Success! Your club charter application for "${safeClubName}" has been submitted to the Student Affairs Council for verification.`,
+    'success'
+  );
   showToast('Club application submitted for review!', 'success');
 }
 
 /**
- * Logs out user and returns to login page
+ * Clears current session from storage and navigates to the login screen.
  */
 function handleLogout() {
   setStorage(STORAGE_KEYS.CURRENT_USER, null);
   showToast('You have been logged out.', 'info');
-  setTimeout(() => window.location.href = 'login.html', 500);
+  setTimeout(() => {
+    window.location.href = 'login.html';
+  }, 500);
 }
 
+/* ==========================================================================
+   4. UI Helpers
+   ========================================================================== */
+
 /**
- * Helper to display alert banners in forms
+ * Renders an accessible Bootstrap alert banner inside a form container.
+ *
+ * @param {HTMLElement|null} alertEl - Target alert container element.
+ * @param {string} message - Message text to present.
+ * @param {'danger'|'success'|'warning'|'info'} [type='danger'] - Bootstrap alert color style.
  */
 function showAlert(alertEl, message, type = 'danger') {
   if (!alertEl) return;
   alertEl.className = `alert alert-${type} mt-3 mb-3 d-flex align-items-center gap-2`;
   alertEl.innerHTML = `
-    <i class="bi ${type === 'danger' ? 'bi-exclamation-circle-fill' : 'bi-check-circle-fill'} fs-5"></i>
+    <i class="bi ${type === 'danger' ? 'bi-exclamation-circle-fill' : 'bi-check-circle-fill'} fs-5 flex-shrink-0"></i>
     <div>${message}</div>
   `;
   alertEl.classList.remove('d-none');
