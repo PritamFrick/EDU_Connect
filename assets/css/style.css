@@ -1,0 +1,1469 @@
+/* ==========================================================================
+   EDUConnect - University Professional Networking & Club Management Platform
+   Custom Stylesheet (Built on Bootstrap 5)
+   Designed for CSE 242 Project - Clean, Modern, Academic & Accessible
+   ========================================================================== */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --edu-maroon: #58101e;
+  --edu-maroon-dark: #380811;
+  --edu-maroon-light: #721627;
+  --edu-gold: #d89b27;
+  --edu-gold-hover: #ebac36;
+  --edu-gold-soft: #fcf6eb;
+  --edu-gold-bg: #dfa838;
+  --edu-charcoal: #17070b;
+  --edu-charcoal-light: #2b2227;
+
+  /* Global Theme Aliases */
+  --edu-primary: #58101e;
+  --edu-primary-hover: #721627;
+  --edu-primary-soft: #faeef1;
+  --edu-secondary: #d89b27;
+  --edu-accent: #059669;
+  --edu-warning: #d97706;
+  --edu-danger: #dc2626;
+  --edu-bg: #fdfaf6;
+  --edu-card-bg: #ffffff;
+  --edu-border: #ebd8dc;
+  --edu-border-hover: #dec4cb;
+  --edu-text-dark: #1c080e;
+  --edu-text-muted: #735d64;
+
+  --edu-serif: 'DM Serif Display', Georgia, serif;
+  --edu-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --edu-shadow-sm: 0 2px 4px 0 rgba(40, 8, 15, 0.05);
+  --edu-shadow: 0 4px 12px -2px rgba(40, 8, 15, 0.08), 0 2px 6px -1px rgba(40, 8, 15, 0.04);
+  --edu-shadow-lg: 0 12px 24px -4px rgba(40, 8, 15, 0.12), 0 4px 8px -2px rgba(40, 8, 15, 0.04);
+  --edu-radius: 12px;
+  --edu-radius-sm: 8px;
+  --edu-radius-lg: 16px;
+  --edu-radius-pill: 9999px;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--edu-bg);
+  color: var(--edu-text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .brand-font, .serif-heading {
+  font-family: var(--edu-serif);
+  font-weight: 700;
+  color: var(--edu-maroon-dark);
+}
+
+/* ==========================================================================
+   Global Navigation Bar (Dark Maroon Theme with Gold Accents)
+   ========================================================================== */
+.edu-navbar {
+  background-color: var(--edu-charcoal) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 16px rgba(23, 7, 11, 0.35);
+  padding: 0.65rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--edu-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  letter-spacing: 0.01em;
+}
+
+.brand-gold {
+  color: var(--edu-gold) !important;
+}
+
+.brand-badge {
+  background: linear-gradient(135deg, var(--edu-maroon-light), var(--edu-gold));
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  box-shadow: 0 4px 10px rgba(216, 155, 39, 0.3);
+}
+
+.nav-link {
+  font-family: var(--edu-sans);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 0.5rem 0.85rem !important;
+  border-radius: var(--edu-radius-pill);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--edu-gold) !important;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.nav-link i {
+  font-size: 1.1rem;
+}
+
+.nav-badge-pill {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--edu-gold);
+  color: var(--edu-charcoal);
+  font-weight: 700;
+  margin-left: 0.2rem;
+}
+
+/* ==========================================================================
+   Cards & Layout Components
+   ========================================================================== */
+.edu-card {
+  background: var(--edu-card-bg);
+  border: 1px solid var(--edu-border);
+  border-radius: var(--edu-radius);
+  box-shadow: var(--edu-shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.edu-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--edu-shadow);
+  border-color: var(--edu-border-hover);
+}
+
+.edu-card-header {
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--edu-border);
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edu-card-body {
+  padding: 1.25rem;
+}
+
+/* ==========================================================================
+   Sidebar & Left Rail
+   ========================================================================== */
+.sidebar-profile-card {
+  text-align: center;
+}
+
+.sidebar-cover {
+  height: 70px;
+  background: linear-gradient(135deg, #1e3a8a, #0284c7);
+  width: 100%;
+}
+
+.sidebar-avatar-wrap {
+  margin-top: -38px;
+  margin-bottom: 0.75rem;
+}
+
+.avatar-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  object-fit: cover;
+  box-shadow: var(--edu-shadow-sm);
+  background-color: #e2e8f0;
+}
+
+.avatar-sm {
+  width: 40px;
+  height: 40px;
+}
+
+.avatar-lg {
+  width: 100px;
+  height: 100px;
+}
+
+.avatar-xl {
+  width: 130px;
+  height: 130px;
+}
+
+.club-logo-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: var(--edu-shadow-sm);
+  background-color: #f1f5f9;
+}
+
+/* ==========================================================================
+   Buttons & Tags (Maroon & Academic Gold Theme)
+   ========================================================================== */
+.btn-edu-primary {
+  background-color: var(--edu-gold) !important;
+  border-color: var(--edu-gold) !important;
+  color: var(--edu-charcoal) !important;
+  font-weight: 700;
+  border-radius: var(--edu-radius-pill);
+  padding: 0.52rem 1.35rem;
+  transition: all 0.2s ease;
+}
+
+.btn-edu-primary:hover {
+  background-color: var(--edu-gold-hover) !important;
+  border-color: var(--edu-gold-hover) !important;
+  color: #000000 !important;
+  box-shadow: 0 4px 14px rgba(216, 155, 39, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-edu-maroon {
+  background-color: var(--edu-maroon) !important;
+  border-color: var(--edu-maroon) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  border-radius: var(--edu-radius-pill);
+  padding: 0.52rem 1.35rem;
+  transition: all 0.2s ease;
+}
+
+.btn-edu-maroon:hover {
+  background-color: var(--edu-maroon-light) !important;
+  border-color: var(--edu-maroon-light) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.btn-edu-outline {
+  border: 1px solid var(--edu-border-hover);
+  color: var(--edu-maroon);
+  background-color: #ffffff;
+  font-weight: 600;
+  border-radius: var(--edu-radius-pill);
+  padding: 0.48rem 1.15rem;
+  transition: all 0.2s ease;
+}
+
+.btn-edu-outline:hover {
+  background-color: var(--edu-primary-soft);
+  border-color: var(--edu-maroon);
+  color: var(--edu-maroon);
+}
+
+.btn-edu-success {
+  background-color: var(--edu-accent);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  border-radius: var(--edu-radius-pill);
+}
+.btn-edu-success:hover {
+  background-color: #047857;
+  color: #fff;
+}
+
+/* Pill Badges */
+.badge-dept {
+  background-color: #faeef1;
+  color: var(--edu-maroon);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  display: inline-block;
+  border: 1px solid #ebd8dc;
+}
+
+.skill-tag {
+  background-color: var(--edu-gold-soft);
+  color: #8c5b08;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-right: 0.35rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid #f6e3c0;
+}
+
+.interest-tag {
+  background-color: #fcf2f4;
+  color: var(--edu-maroon);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-right: 0.35rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid #f1d5dc;
+}
+
+/* Verification Status Badges */
+.status-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.status-verified {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.status-pending {
+  background-color: var(--edu-gold-soft);
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.status-rejected {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* ==========================================================================
+   Feed Navigation Tabs
+   ========================================================================== */
+.feed-tabs {
+  background-color: #ffffff;
+  border-radius: var(--edu-radius);
+  padding: 0.4rem;
+  display: flex;
+  gap: 0.5rem;
+  border: 1px solid var(--edu-border);
+  margin-bottom: 1.25rem;
+}
+
+.feed-tab-btn {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  background: transparent;
+  color: var(--edu-text-muted);
+  border-radius: var(--edu-radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.feed-tab-btn.active {
+  background-color: var(--edu-maroon);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(88, 16, 30, 0.25);
+}
+
+/* ==========================================================================
+   Post & Announcement Card
+   ========================================================================== */
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.post-author-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.post-media {
+  border-radius: var(--edu-radius-sm);
+  overflow: hidden;
+  margin-top: 0.85rem;
+  max-height: 380px;
+  background-color: #f8f1f3;
+}
+
+.post-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-top: 0.85rem;
+  margin-top: 0.85rem;
+  border-top: 1px solid var(--edu-border);
+}
+
+.post-action-btn {
+  background: none;
+  border: none;
+  color: var(--edu-text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.post-action-btn:hover, .post-action-btn.active {
+  color: var(--edu-maroon);
+  background-color: var(--edu-primary-soft);
+}
+
+/* ==========================================================================
+   Profile Page Cover & Layout
+   ========================================================================== */
+.profile-cover-header {
+  height: 220px;
+  background: linear-gradient(135deg, #3d0d16 0%, #681523 50%, #d89b27 100%);
+  position: relative;
+  border-radius: var(--edu-radius) var(--edu-radius) 0 0;
+}
+
+.profile-avatar-holder {
+  position: absolute;
+  bottom: -45px;
+  left: 30px;
+}
+
+.profile-avatar-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  object-fit: cover;
+  background-color: #f8f1f3;
+  box-shadow: var(--edu-shadow);
+}
+
+.profile-info-bar {
+  padding-top: 55px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 25px;
+}
+
+/* ==========================================================================
+   Sidebar & Left Rail
+   ========================================================================== */
+.sidebar-profile-card {
+  text-align: center;
+}
+
+.sidebar-cover {
+  height: 70px;
+  background: linear-gradient(135deg, #3d0d16, #d89b27);
+  width: 100%;
+}
+
+.sidebar-avatar-wrap {
+  margin-top: -38px;
+  margin-bottom: 0.75rem;
+}
+
+/* ==========================================================================
+   Event Card Date Badge
+   ========================================================================== */
+.event-date-badge {
+  background-color: var(--edu-gold-soft);
+  border: 1px solid #ebd0a0;
+  border-radius: 10px;
+  text-align: center;
+  padding: 0.5rem;
+  min-width: 65px;
+}
+
+.event-date-month {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--edu-maroon);
+  text-transform: uppercase;
+}
+
+.event-date-day {
+  font-family: var(--edu-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--edu-maroon-dark);
+  line-height: 1.1;
+}
+
+/* ==========================================================================
+   Notification Items
+   ========================================================================== */
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--edu-border);
+  transition: background-color 0.15s ease;
+  position: relative;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item:hover {
+  background-color: #f8fafc;
+}
+
+.notification-item.unread {
+  background-color: #f0f7ff;
+}
+
+.notification-item.unread::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--edu-primary);
+}
+
+.notification-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Admin Dashboard Metrics
+   ========================================================================== */
+.stat-card {
+  padding: 1.25rem;
+  border-radius: var(--edu-radius);
+  background-color: #ffffff;
+  border: 1px solid var(--edu-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* ==========================================================================
+   Demo Credentials Callout Box
+   ========================================================================== */
+.demo-credentials-box {
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: var(--edu-radius);
+  padding: 1.25rem;
+}
+
+.demo-account-pill {
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.demo-account-pill:hover {
+  background-color: #e0f2fe;
+  border-color: #7dd3fc;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Toast Notification Styling
+   ========================================================================== */
+.edu-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+}
+
+.edu-toast {
+  background: var(--edu-navy);
+  color: #ffffff;
+  border-radius: var(--edu-radius-sm);
+  box-shadow: var(--edu-shadow-lg);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 280px;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.edu-footer {
+  background-color: #ffffff;
+  border-top: 1px solid var(--edu-border);
+  padding: 2rem 0;
+  margin-top: auto;
+  font-size: 0.88rem;
+  color: var(--edu-text-muted);
+}
+
+/* Print / Utilities */
+.cursor-pointer { cursor: pointer; }
+.text-edu-primary { color: var(--edu-primary) !important; }
+.bg-edu-primary-soft { background-color: var(--edu-primary-soft) !important; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-cover-header {
+    height: 160px;
+  }
+  .profile-avatar-large {
+    width: 90px;
+    height: 90px;
+  }
+  .profile-info-bar {
+    padding-top: 45px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* ==========================================================================
+   Custom Club Profile Design System (Maroon & Academic Gold Theme)
+   Follows the exact UI/UX specification in the user mockup
+   ========================================================================== */
+
+/* Top bar dark theme for club profile */
+.club-profile-nav {
+  background-color: #17070b !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.club-profile-nav .navbar-brand {
+  color: #ffffff !important;
+  font-family: var(--club-serif) !important;
+  font-size: 1.4rem !important;
+}
+.club-profile-nav .brand-gold {
+  color: #dfa838 !important;
+}
+.club-profile-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.club-profile-nav .nav-link:hover, .club-profile-nav .nav-link.active {
+  color: #dfa838 !important;
+  background-color: transparent !important;
+}
+
+/* Hero Section */
+.club-profile-hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  min-height: 480px;
+  color: #ffffff;
+  padding: 3.5rem 0 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.club-profile-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(20, 4, 8, 0.82) 0%, rgba(55, 12, 22, 0.75) 50%, rgba(15, 6, 10, 0.88) 100%);
+  z-index: 1;
+}
+
+.club-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Round Emblem Seal */
+.club-emblem-wrap {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid #d89b27;
+  background: radial-gradient(circle, #3d0d16 0%, #1a0509 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.club-emblem-icon {
+  font-size: 2.75rem;
+  color: #dfa838;
+}
+
+.club-title-serif {
+  font-family: var(--club-serif);
+  font-size: 3.5rem;
+  line-height: 1.05;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.club-subtitle-gold {
+  color: #dfa838;
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-bottom: 1.75rem;
+}
+
+/* Buttons */
+.btn-gold-pill {
+  background-color: #d89b27;
+  color: #1f070e;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.55rem 1.4rem;
+  border: none;
+  font-size: 0.92rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn-gold-pill:hover {
+  background-color: #ebac36;
+  color: #150409;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(216, 155, 39, 0.4);
+}
+
+.btn-pill-dark {
+  background-color: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  padding: 0.55rem 1.3rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: all 0.2s ease;
+}
+.btn-pill-dark:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.btn-maroon-pill {
+  background-color: #58101e;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.5rem 1.35rem;
+  border: none;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+}
+.btn-maroon-pill:hover {
+  background-color: #721627;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Featured 4-Polaroid Grid in Hero */
+.featured-label {
+  color: #dfa838;
+  font-size: 0.95rem;
+  font-style: italic;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.featured-polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.featured-polaroid-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  text-decoration: none !important;
+  display: block;
+}
+.featured-polaroid-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+
+.featured-polaroid-card:nth-child(1) { transform: rotate(-1.5deg); }
+.featured-polaroid-card:nth-child(2) { transform: rotate(1.5deg); }
+.featured-polaroid-card:nth-child(3) { transform: rotate(1.2deg); }
+.featured-polaroid-card:nth-child(4) { transform: rotate(-1.8deg); }
+
+.featured-polaroid-card:hover {
+  transform: rotate(0deg) translateY(-4px) !important;
+}
+
+.polaroid-media-box {
+  height: 120px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+.polaroid-media-box.maroon-bg { background-color: #6b1725; }
+.polaroid-media-box.gold-bg { background-color: #b8861d; }
+.polaroid-media-box.charcoal-bg { background-color: #2b2227; }
+
+.polaroid-content {
+  padding: 0.45rem 0.25rem 0.2rem;
+}
+.polaroid-title {
+  font-weight: 700;
+  color: #17070b;
+  font-size: 0.88rem;
+  line-height: 1.2;
+}
+.polaroid-sub {
+  color: #78656a;
+  font-size: 0.72rem;
+}
+
+/* Club Meta Strip below Hero */
+.club-meta-strip {
+  background-color: #24060d;
+  color: #ffffff;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.social-pill-btn {
+  background-color: #3b0e17;
+  color: #ffffff;
+  border: 1px solid #5d1a27;
+  border-radius: 9999px;
+  padding: 0.35rem 0.95rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.social-pill-btn:hover {
+  background-color: #551422;
+  color: #ffffff;
+}
+
+/* Subnav Anchor Pills */
+.subnav-pills-bar {
+  background-color: #ffffff;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #eee5e7;
+}
+.subnav-pill {
+  background-color: #ffffff;
+  border: 1px solid #d1b8be;
+  color: #4a1520;
+  border-radius: 9999px;
+  padding: 0.45rem 1.4rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+.subnav-pill:hover, .subnav-pill.active {
+  background-color: #58101e;
+  border-color: #58101e;
+  color: #ffffff;
+}
+
+/* General Club Section Heading */
+.club-section-heading {
+  font-family: var(--club-serif);
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* Photo Cards 3-Grid */
+.club-photo-card {
+  border-radius: 8px;
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease;
+}
+.club-photo-card:hover {
+  transform: translateY(-3px);
+}
+.club-photo-card.maroon {
+  background-color: #631422;
+}
+.club-photo-card.gold {
+  background-color: #b8861d;
+}
+.club-photo-card.charcoal {
+  background-color: #2b2227;
+}
+.club-photo-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+}
+
+/* Goals list */
+.club-goals-list {
+  list-style: none;
+  padding-left: 0;
+}
+.club-goals-list li {
+  font-family: var(--club-serif);
+  font-size: 1.15rem;
+  color: #3b0e17;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed #e6d3d7;
+}
+
+/* Events Section (Deep Maroon Background) */
+.club-events-section {
+  background-color: #3e0b15;
+  color: #ffffff;
+  padding: 4rem 0;
+}
+.club-events-section .club-section-heading {
+  color: #ffffff;
+}
+
+/* Ticket Card */
+.event-ticket-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  color: #17070b;
+}
+
+.ticket-date-block {
+  text-align: center;
+  min-width: 80px;
+  padding-right: 1.5rem;
+  border-right: 2px dashed #e0c8ce;
+  margin-right: 1.5rem;
+}
+.ticket-date-num {
+  font-family: var(--club-serif);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: #58101e;
+  font-weight: 700;
+}
+.ticket-date-mon {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #58101e;
+  text-transform: uppercase;
+}
+
+.ticket-info-block {
+  flex-grow: 1;
+}
+.ticket-title {
+  font-family: var(--club-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  color: #17070b;
+}
+.ticket-meta {
+  color: #6d5b60;
+  font-size: 0.88rem;
+}
+
+/* Active Recruitments Section */
+.recruitment-card {
+  background-color: #ffffff;
+  border: 1px solid #e0c8ce;
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.recruitment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.recruitment-close-pill {
+  background-color: #dfa838;
+  color: #1a080d;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 0.85rem;
+  align-self: flex-start;
+}
+.recruitment-role-title {
+  font-family: var(--club-serif);
+  font-size: 1.45rem;
+  color: #17070b;
+  margin-bottom: 0.5rem;
+}
+.recruitment-desc {
+  color: #665056;
+  font-size: 0.88rem;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+/* Achievements Section (Warm Mustard Gold) */
+.club-achievements-section {
+  background-color: #dfa838;
+  color: #1c080e;
+  padding: 4rem 0 4.5rem;
+}
+.club-achievements-section .club-section-heading {
+  color: #1c080e;
+}
+
+.achievement-stat-num {
+  font-family: var(--club-serif);
+  font-size: 3.8rem;
+  line-height: 1;
+  font-weight: 700;
+  color: #1c080e;
+  margin-bottom: 0.25rem;
+}
+.achievement-stat-title {
+  font-family: var(--club-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1c080e;
+  margin-bottom: 0.2rem;
+}
+.achievement-stat-sub {
+  color: #4f3310;
+  font-size: 0.82rem;
+}
+
+/* Club Minimalist Footer */
+.club-minimal-footer {
+  background-color: #f7ede0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 1.25rem 0;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #6b5540;
+  font-family: var(--club-serif);
+}
+
+/* ==========================================================================
+   Homepage (index.html) Theme - Identical Match to East Delta University Mockup
+   ========================================================================== */
+.edu-home-page {
+  background-color: #faf6f0;
+  color: #1a080d;
+}
+
+/* Homepage Navbar (Seamless deep maroon background) */
+.home-navbar {
+  background-color: #440d1a !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.25rem 0;
+}
+
+.home-brand {
+  font-family: var(--edu-serif);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.home-nav-link {
+  color: #eed7dc !important;
+  font-weight: 500;
+  font-size: 0.98rem;
+  text-decoration: none;
+  padding: 0.4rem 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.home-nav-link:hover {
+  color: #ffffff !important;
+}
+
+.home-nav-login {
+  color: #dfa838 !important;
+  font-weight: 600;
+  font-size: 0.98rem;
+  text-decoration: none;
+  padding: 0.4rem 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.home-nav-login:hover {
+  color: #f7be4b !important;
+}
+
+/* Homepage Hero Section */
+.home-hero-section {
+  background-color: #440d1a;
+  color: #ffffff;
+  padding: 4.5rem 0 5.5rem;
+  position: relative;
+}
+
+.home-hero-kicker {
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #d69ca6;
+  margin-bottom: 1.5rem;
+}
+
+.home-hero-headline {
+  font-family: var(--edu-serif);
+  font-size: 4.25rem;
+  line-height: 1.05;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.home-hero-headline .gold-text {
+  color: #dfa838;
+}
+
+.home-hero-sub {
+  color: #ebd3d9;
+  font-size: 1.18rem;
+  line-height: 1.6;
+  max-width: 420px;
+  margin-bottom: 2.25rem;
+  font-weight: 400;
+}
+
+.btn-hero-explore {
+  background-color: #dfa838;
+  color: #350812 !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 0.85rem 2.25rem;
+  border-radius: 999px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
+  border: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.btn-hero-explore:hover {
+  background-color: #ebb543;
+  color: #20040a !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.home-hero-img-wrap {
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 44px rgba(15, 2, 5, 0.45);
+}
+
+.home-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 28px;
+}
+
+/* Sections Common Header */
+.home-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.home-section-title {
+  font-family: var(--edu-serif);
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #1c060c;
+  margin-bottom: 0;
+}
+
+.home-section-link {
+  color: #551120;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.98rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.home-section-link:hover {
+  color: #7b182d;
+  text-decoration: underline;
+}
+
+/* Popular Clubs Cards */
+.home-club-card {
+  background: #ffffff;
+  border: 1px solid #ebd9dc;
+  border-radius: 16px;
+  padding: 2.25rem 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 10px rgba(35, 7, 13, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  text-decoration: none;
+}
+
+.home-club-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(35, 7, 13, 0.08);
+  border-color: #dfc2c8;
+}
+
+.club-circle-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f7e6e9;
+  color: #58101e;
+  font-family: var(--edu-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.home-club-title {
+  font-family: var(--edu-sans);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #17070b;
+  margin-bottom: 0.6rem;
+}
+
+.home-club-desc {
+  color: #69555c;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-bottom: 1.75rem;
+  flex-grow: 1;
+}
+
+.home-club-action {
+  color: #58101e;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Upcoming Events Container */
+.home-events-container {
+  background: #ffffff;
+  border: 1px solid #ebd9dc;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(35, 7, 13, 0.03);
+}
+
+.home-event-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.35rem 2.25rem;
+  border-bottom: 1px solid #f2e6e9;
+  transition: background-color 0.15s ease;
+}
+
+.home-event-row:last-child {
+  border-bottom: none;
+}
+
+.home-event-row:hover {
+  background-color: #fdf8f9;
+}
+
+.home-event-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 55px;
+  margin-right: 2rem;
+}
+
+.home-event-date .event-month {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #782637;
+  letter-spacing: 0.06em;
+}
+
+.home-event-date .event-day {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #440d1a;
+  line-height: 1.05;
+  font-family: var(--edu-sans);
+}
+
+.home-event-title-wrap {
+  flex-grow: 1;
+}
+
+.home-event-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #17070b;
+  text-decoration: none;
+}
+
+.home-event-title:hover {
+  color: #58101e;
+}
+
+.home-event-meta {
+  color: #69555c;
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Homepage Footer */
+.home-footer {
+  background-color: transparent;
+  border-top: 1px solid #ebd9dc;
+  padding: 2.25rem 0 2.5rem;
+}
+
+.home-footer-left {
+  color: #543e45;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.home-footer-right {
+  font-family: var(--edu-serif);
+  font-style: italic;
+  color: #543e45;
+  font-size: 1.1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-hero-headline {
+    font-size: 3rem;
+  }
+  .home-event-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+  .home-event-meta {
+    text-align: left;
+    margin-left: calc(55px + 2rem);
+  }
+}
+

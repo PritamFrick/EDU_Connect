@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard – EDUConnect</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-light">
+
+  <!-- Top Navigation Bar (Admin Style with Maroon & Gold) -->
+  <nav class="navbar navbar-expand-lg edu-navbar py-2">
+    <div class="container-fluid px-lg-4">
+      <a class="navbar-brand text-white d-flex align-items-center gap-2" href="admin.html">
+        <span class="fw-bold">EDU<span class="brand-gold">Connect</span> <span class="badge ms-1 text-uppercase" style="background-color: #d89b27; color: #1c080e; font-size: 0.68rem; font-family: var(--edu-sans);">Admin Panel</span></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarAdmin">
+        <ul class="navbar-nav ms-auto align-items-center gap-2">
+          <li class="nav-item">
+            <a class="nav-link text-light small" href="dashboard.html">
+              <i class="bi bi-box-arrow-up-right me-1"></i> Return to Student Portal
+            </a>
+          </li>
+
+          <!-- User Profile & Demo Switcher Dropdown -->
+          <li class="nav-item dropdown ms-lg-2">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 p-1 text-light" href="#" role="button" data-bs-toggle="dropdown">
+              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80" alt="Admin" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
+              <span class="d-none d-lg-inline fw-semibold">Prof. Rahman (Admin)</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header">Switch Demo User</h6></li>
+              <li><a class="dropdown-item" href="#" data-switch-role="student"><i class="bi bi-person text-primary me-2"></i>Student (Farhan)</a></li>
+              <li><a class="dropdown-item" href="#" data-switch-role="club_rep"><i class="bi bi-flag text-info me-2"></i>Club Rep (Robotics)</a></li>
+              <li><a class="dropdown-item" href="#" data-switch-role="admin"><i class="bi bi-shield-check text-danger me-2"></i>Admin (Prof. Rahman)</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="login.html" data-action="logout" onclick="handleLogout(event)"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Admin Main Container -->
+  <main class="container-fluid px-lg-4 py-4" id="admin-metrics-container">
+    
+    <!-- Page Title & Greeting -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-2">
+      <div>
+        <h3 class="fw-bold mb-1 text-dark">University Administration &amp; Moderation Center</h3>
+        <p class="text-muted small mb-0">Office of Student Affairs &bull; Platform Management &amp; Credential Verification</p>
+      </div>
+      <div>
+        <button class="btn btn-sm btn-outline-danger" id="btn-reset-demo-data">
+          <i class="bi bi-arrow-counterclockwise me-1"></i> Reset All Demo Data
+        </button>
+      </div>
+    </div>
+
+    <!-- 1. Four Statistic Metric Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-sm-6 col-xl-3">
+        <div class="stat-card shadow-sm">
+          <div>
+            <div class="text-muted small fw-semibold text-uppercase">Total Students</div>
+            <div class="fs-3 fw-bold text-dark" id="stat-total-students">5</div>
+            <div class="text-success small"><i class="bi bi-check-circle-fill me-1"></i>Enrolled Profiles</div>
+          </div>
+          <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+            <i class="bi bi-people-fill"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-xl-3">
+        <div class="stat-card shadow-sm">
+          <div>
+            <div class="text-muted small fw-semibold text-uppercase">Total Clubs</div>
+            <div class="fs-3 fw-bold text-dark" id="stat-total-clubs">5</div>
+            <div class="text-info small"><i class="bi bi-flag-fill me-1"></i>Chartered Societies</div>
+          </div>
+          <div class="stat-icon bg-info bg-opacity-10 text-info">
+            <i class="bi bi-building"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-xl-3">
+        <div class="stat-card shadow-sm">
+          <div>
+            <div class="text-muted small fw-semibold text-uppercase">Pending Verifications</div>
+            <div class="fs-3 fw-bold text-warning" id="stat-pending-verifs">2</div>
+            <div class="text-muted small"><i class="bi bi-hourglass-split me-1"></i>Requires Approval</div>
+          </div>
+          <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+            <i class="bi bi-patch-exclamation-fill"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-xl-3">
+        <div class="stat-card shadow-sm">
+          <div>
+            <div class="text-muted small fw-semibold text-uppercase">Flagged Reports</div>
+            <div class="fs-3 fw-bold text-danger" id="stat-active-reports">2</div>
+            <div class="text-danger small"><i class="bi bi-shield-exclamation me-1"></i>Moderation Queue</div>
+          </div>
+          <div class="stat-icon bg-danger bg-opacity-10 text-danger">
+            <i class="bi bi-flag-fill"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Tabs: Verifications, User Management, Club Management, Moderation -->
+    <div class="edu-card shadow-sm mb-4">
+      <div class="edu-card-header bg-white border-bottom">
+        <ul class="nav nav-pills card-header-pills" id="adminMainTabs" role="tablist">
+          <li class="nav-item">
+            <button class="nav-link active fw-semibold" id="tab-verifs" data-bs-toggle="pill" data-bs-target="#content-verifs" type="button" role="tab">
+              <i class="bi bi-patch-check-fill me-1 text-primary"></i> Pending Verifications
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link fw-semibold" id="tab-users" data-bs-toggle="pill" data-bs-target="#content-users" type="button" role="tab">
+              <i class="bi bi-people me-1"></i> Student Directory
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link fw-semibold" id="tab-clubs" data-bs-toggle="pill" data-bs-target="#content-clubs" type="button" role="tab">
+              <i class="bi bi-flag me-1"></i> Club Management
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link fw-semibold text-danger" id="tab-reports" data-bs-toggle="pill" data-bs-target="#content-reports" type="button" role="tab">
+              <i class="bi bi-shield-exclamation me-1"></i> Moderation Reports
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tab-content p-4" id="adminTabContent">
+
+        <!-- TAB 1: PENDING VERIFICATIONS (STUDENTS & CLUBS) -->
+        <div class="tab-pane fade show active" id="content-verifs" role="tabpanel">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="fw-bold mb-1">Identity &amp; Charter Verification Queue</h5>
+              <p class="text-muted small mb-0">Approve or reject student university status and new campus club charter petitions.</p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light small text-muted text-uppercase">
+                <tr>
+                  <th>Type</th>
+                  <th>Applicant Name / Entity</th>
+                  <th>Department / Category</th>
+                  <th>Proof Document</th>
+                  <th>Status</th>
+                  <th>Review Action</th>
+                </tr>
+              </thead>
+              <tbody id="verifications-table-body">
+                <!-- Dynamically populated by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: USER MANAGEMENT -->
+        <div class="tab-pane fade" id="content-users" role="tabpanel">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="fw-bold mb-1">Enrolled Students Database</h5>
+              <p class="text-muted small mb-0">Directly manage student verification badges and review academic standing.</p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light small text-muted text-uppercase">
+                <tr>
+                  <th>Student Info</th>
+                  <th>Student ID</th>
+                  <th>Department</th>
+                  <th>Verification Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-table-body">
+                <!-- Dynamically populated by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3: CLUB DIRECTORY MANAGEMENT -->
+        <div class="tab-pane fade" id="content-clubs" role="tabpanel">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="fw-bold mb-1">Chartered Campus Organizations</h5>
+              <p class="text-muted small mb-0">Overview of official university student clubs, advisors, and recruitment statuses.</p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light small text-muted text-uppercase">
+                <tr>
+                  <th>Club</th>
+                  <th>Category</th>
+                  <th>Faculty Advisor</th>
+                  <th>Members</th>
+                  <th>Recruitment</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-clubs-table-body">
+                <!-- Dynamically populated by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 4: MODERATION REPORTS -->
+        <div class="tab-pane fade" id="content-reports" role="tabpanel">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="fw-bold mb-1 text-danger">Reported Items &amp; Content Moderation</h5>
+              <p class="text-muted small mb-0">Review posts or profiles flagged by students for code-of-conduct violations.</p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light small text-muted text-uppercase">
+                <tr>
+                  <th>Flagged Content</th>
+                  <th>Reported By</th>
+                  <th>Reason / Violation</th>
+                  <th>Resolution Status</th>
+                  <th>Moderation Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-reports-table-body">
+                <!-- Dynamically populated by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-3 bg-white border-top text-center text-muted small mt-auto">
+    <div class="container">
+      &copy; 2026 EDUConnect – CSE 242 University Project Demo (Admin Center)
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Application Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile – EDUConnect</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-light">
+
+  <!-- Top Navigation Bar (Dark Maroon Theme) -->
+  <nav class="navbar navbar-expand-lg edu-navbar">
+    <div class="container-fluid px-lg-4">
+      <a class="navbar-brand" href="index.html">
+        <span class="fw-bold">EDU<span class="brand-gold">Connect</span></span>
+      </a>
+
+      <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarProfile">
+        <i class="bi bi-list fs-2 text-white"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarProfile">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+          <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-house-door"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="students.html"><i class="bi bi-people"></i> Students</a></li>
+          <li class="nav-item"><a class="nav-link" href="clubs.html"><i class="bi bi-flag"></i> Clubs</a></li>
+          <li class="nav-item"><a class="nav-link" href="events.html"><i class="bi bi-calendar-event"></i> Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="notifications.html"><i class="bi bi-bell"></i> Notifications <span class="nav-badge-pill" id="nav-notif-badge" style="display: none;">0</span></a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2">
+          <!-- User Profile & Demo Switcher Dropdown -->
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 p-1 text-light" href="#" role="button" data-bs-toggle="dropdown">
+              <div id="nav-user-chip" class="d-flex align-items-center gap-2">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="User" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
+                <span class="d-none d-lg-inline fw-semibold text-light">Farhan Ahmed</span>
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li><h6 class="dropdown-header">Switch Demo User</h6></li>
+              <li><a class="dropdown-item" href="#" data-switch-role="student"><i class="bi bi-person text-primary me-2"></i>Student (Farhan)</a></li>
+              <li><a class="dropdown-item" href="#" data-switch-role="club_rep"><i class="bi bi-flag text-info me-2"></i>Club Rep (Robotics)</a></li>
+              <li><a class="dropdown-item" href="#" data-switch-role="admin"><i class="bi bi-shield-check text-danger me-2"></i>Admin (Prof. Rahman)</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="login.html" data-action="logout" onclick="handleLogout(event)"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Content Container -->
+  <main class="container py-4" id="student-profile-container">
+    <div class="row g-4">
+
+      <!-- LEFT / MAIN COLUMN: Profile Header & Academic Details -->
+      <div class="col-lg-8">
+        
+        <!-- Header Card with Cover and Avatar -->
+        <div class="edu-card mb-4 position-relative">
+          <div class="profile-cover-header">
+            <div class="profile-avatar-holder">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" 
+                   id="profile-avatar" alt="Student Profile" class="profile-avatar-large">
+            </div>
+          </div>
+
+          <div class="profile-info-bar">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">
+              <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <h3 class="fw-bold mb-0 text-dark" id="profile-name">Farhan Ahmed</h3>
+                  <span id="profile-status-badge" class="status-pill status-verified">
+                    <i class="bi bi-patch-check-fill"></i> Verified
+                  </span>
+                </div>
+                <div class="text-muted small mb-2" id="profile-student-id">
+                  <i class="bi bi-person-badge me-1"></i> 2023-1-60-045
+                </div>
+                <div class="badge-dept mb-2" id="profile-department">
+                  Computer Science &amp; Engineering
+                </div>
+                <div class="small text-muted mb-3">
+                  <i class="bi bi-envelope-fill me-1"></i> <span id="profile-email">farhan.ahmed@student.edu</span>
+                </div>
+              </div>
+
+              <!-- Action buttons -->
+              <div class="d-flex gap-2">
+                <button class="btn btn-edu-outline" id="btn-edit-profile-modal" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                  <i class="bi bi-pencil-square me-1"></i> Edit Profile
+                </button>
+                <div id="profile-connect-action-container" class="d-none">
+                  <!-- Injected if viewing other student -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Bio -->
+            <div class="border-top pt-3 mt-2">
+              <h6 class="fw-bold text-dark mb-2">Biography &amp; Academic Focus</h6>
+              <p class="text-secondary mb-0" id="profile-bio" style="line-height: 1.6;">
+                Passionate CSE undergrad interested in Full-Stack Web Development, Cloud Computing, and open-source software.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills and Interests -->
+        <div class="edu-card p-4 mb-4">
+          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-code-slash text-primary me-2"></i>Skills &amp; Competencies</h5>
+          <div class="mb-4" id="profile-skills-container">
+            <!-- Dynamically populated by students.js -->
+          </div>
+
+          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-compass text-success me-2"></i>Interests &amp; Specializations</h5>
+          <div id="profile-interests-container">
+            <!-- Dynamically populated by students.js -->
+          </div>
+        </div>
+
+        <!-- Co-Curricular Clubs & Activities -->
+        <div class="edu-card p-4 mb-4">
+          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-flag-fill text-info me-2"></i>Campus Clubs &amp; Activities</h5>
+          <div class="row" id="profile-clubs-container">
+            <!-- Dynamically populated by students.js -->
+          </div>
+        </div>
+
+        <!-- Achievements & Honors -->
+        <div class="edu-card p-4 mb-4">
+          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-trophy-fill text-warning me-2"></i>Honors &amp; Awards</h5>
+          <ul class="list-group list-group-flush" id="profile-achievements-container">
+            <!-- Dynamically populated by students.js -->
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR: Academic Summary Box -->
+      <div class="col-lg-4">
+        
+        <!-- Academic Standing Card -->
+        <div class="edu-card p-4 mb-4">
+          <h6 class="fw-bold text-dark mb-3 text-uppercase small" style="letter-spacing: 0.05em;">Academic Overview</h6>
+          
+          <div class="d-flex justify-content-between py-2 border-bottom">
+            <span class="text-muted small">Current Semester</span>
+            <span class="fw-semibold text-dark small" id="profile-semester">6th Semester</span>
+          </div>
+
+          <div class="d-flex justify-content-between py-2 border-bottom">
+            <span class="text-muted small">Cumulative CGPA</span>
+            <span class="fw-bold text-primary small" id="profile-cgpa">3.86 / 4.00</span>
+          </div>
+
+          <div class="d-flex justify-content-between py-2 border-bottom">
+            <span class="text-muted small">Academic Standing</span>
+            <span class="badge bg-success-subtle text-success small">Good Standing</span>
+          </div>
+
+          <div class="d-flex justify-content-between py-2">
+            <span class="text-muted small">Enrolled Program</span>
+            <span class="fw-semibold text-dark small">B.Sc. in CSE</span>
+          </div>
+        </div>
+
+        <!-- Verification Notice -->
+        <div class="edu-card p-4 bg-white mb-4">
+          <div class="d-flex align-items-center gap-2 mb-2 text-primary">
+            <i class="bi bi-shield-check fs-4"></i>
+            <h6 class="fw-bold mb-0">Verified University Identity</h6>
+          </div>
+          <p class="small text-muted mb-0">
+            This profile is authenticated with the University Registrar database. All club roles and awards are validated by student club advisors.
+          </p>
+        </div>
+
+        <!-- Back to Directory button -->
+        <a href="students.html" class="btn btn-outline-secondary w-100">
+          <i class="bi bi-arrow-left me-1"></i> Return to Students Directory
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Edit Student Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="edit-profile-form">
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="edit-name" class="form-label small fw-semibold">Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="edit-name" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="edit-dept" class="form-label small fw-semibold">Academic Department <span class="text-danger">*</span></label>
+                <select class="form-select" id="edit-dept" required>
+                  <option value="Computer Science & Engineering">Computer Science &amp; Engineering</option>
+                  <option value="Electrical & Electronic Engineering">Electrical &amp; Electronic Engineering</option>
+                  <option value="Business Administration (BBA)">Business Administration (BBA)</option>
+                  <option value="Civil Engineering">Civil Engineering</option>
+                  <option value="English & Humanities">English &amp; Humanities</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="edit-semester" class="form-label small fw-semibold">Current Semester</label>
+                <input type="text" class="form-control" id="edit-semester" placeholder="e.g. 6th Semester">
+              </div>
+
+              <div class="col-md-6">
+                <label for="edit-cgpa" class="form-label small fw-semibold">CGPA</label>
+                <input type="text" class="form-control" id="edit-cgpa" placeholder="e.g. 3.86">
+              </div>
+
+              <div class="col-12">
+                <label for="edit-bio" class="form-label small fw-semibold">Biography</label>
+                <textarea class="form-control" id="edit-bio" rows="3"></textarea>
+              </div>
+
+              <div class="col-12">
+                <label for="edit-skills" class="form-label small fw-semibold">Skills (Comma-separated)</label>
+                <input type="text" class="form-control" id="edit-skills" placeholder="e.g. JavaScript, PHP, MySQL, React, Python">
+              </div>
+
+              <div class="col-12">
+                <label for="edit-interests" class="form-label small fw-semibold">Interests (Comma-separated)</label>
+                <input type="text" class="form-control" id="edit-interests" placeholder="e.g. Web Architecture, Machine Learning, System Design">
+              </div>
+
+              <div class="col-12">
+                <label for="edit-avatar" class="form-label small fw-semibold">Avatar Image URL</label>
+                <input type="url" class="form-control" id="edit-avatar" placeholder="https://images.unsplash.com/...">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-edu-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-3 bg-white border-top text-center text-muted small mt-auto">
+    <div class="container">
+      &copy; 2026 EDUConnect – CSE 242 University Project Demo
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Application Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/students.js"></script>
+</body>
+</html>
